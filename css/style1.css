@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo&family=Pacifico&family=Public+Sans&family=Work+Sans&display=swap');
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+{
+    /* background-color: black; */
+  /* border: 1px solid green; */
+  /* -webkit-bg-fill-color: green; */
+  /* -webkit-box-shadow: 0 0 0px 1000px #000 inset; */
+  transition: background-color 0s 50000s, color 0s 6000000s;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: 'Arimo', sans-serif;
+font-family: 'Public Sans', sans-serif;
+font-family: 'Work Sans', sans-serif;
+}
+body{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(../image/bg_1.jpg);
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center;
+    overflow: hidden;
+    width: 100%;
+}
+.background{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    background: #00000078;
+}
+.box{
+    position: relative;
+    width: 720px;
+    height: 420px;
+    background: #222;
+    border-radius: 41px;
+    overflow: hidden;
+    z-index: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+.right{
+    width: 50%;
+    padding: 35px 40px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffb302;
+    border-radius: 39px;
+    align-items: center;
+    justify-content: center;
+}
+.right h1{
+    font-family: 'Pacifico', cursive;
+    letter-spacing: 3px;
+    font-weight: 500;
+    font-size: 50px;
+    /* text-align: center; */
+}
+.right p{
+    margin-top: 10px;
+    font-size: 19px;
+}
+.line{
+    position: absolute;
+    top: 0;
+    inset: 0;
+    z-index: 1;
+
+}
+.see_pass_word{
+    position: absolute;
+    z-index: 2;
+    right: 10px;
+    top: 15%;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    color: whitesmoke;
+}
+.box form{
+    /* position: absolute;
+    inset: 2px; */
+    width: 50%;
+    /* background: #222; */
+    padding: 50px 40px;
+    /* border-radius: 39px; */
+    /* z-index: 2; */
+    display: flex;
+    flex-direction: column;
+}
+.box form h2{
+    color: #fff;
+    font-weight: 500;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 25px;
+}
+.box form .inputBox
+{
+    position: relative;
+    width: 100%;
+    margin-top: 40px;
+}
+.box form .inputBox input{
+    position: relative;
+    width: 100%;
+    padding: 10px 0 5px 10px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    color: whitesmoke;
+    font-size: 1em;
+    letter-spacing: 1px;
+    transition: 0.5s;
+    z-index: 10;
+    opacity: 0;
+}
+.box form .inputBox span{
+    position: absolute;
+    left: 0;
+    padding: 15px 0 20px;
+    pointer-events: none;
+    color: #8f8f8f;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+    bottom: -15px;
+}
+.box form .inputBox input:valid ~ .see_pass_word{
+    opacity: 1;
+    z-index: 99;
+}
+.box form .inputBox input:focus,
+.box form .inputBox input:valid{
+    opacity: 1;
+}
+.box form .inputBox input:valid ~ span,
+.box form .inputBox input:focus ~ span{
+    color: #fff;
+    font-size: 0.75em;
+    transform: translateY(-30px);
+}
+.box form .links{
+    position: relative;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.box form .links .wrong{
+    color: red;
+    position: absolute;
+    top: -30px;
+    left: 0;
+}
+.box form .links a{
+    text-decoration: none;
+    font-size: 17px;
+    color: #ffb302;
+    transition: 0.2s ease-in-out;
+}
+.box form .links a:hover{
+    color: #fff;
+}
+.box form .submit_form
+{
+    position: relative;
+    margin-top: 7px;
+    font-size: 19px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    padding: 5px 25px;
+    width: 158px;
+    border-radius: 10px;
+    background: #ffb302;
+    transition: 0.3s ease-in-out;
+}
+/* .box form input[type="submit"]::before
+{
+   content: "";
+   position: absolute;
+   top: 0;
+   height: 100%;
+   left:0;
+   width: 0;
+} */
+.box form .inputBox i{
+    position: absolute;
+    background: #fff;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0.5px;
+    overflow: hidden;
+    transition: 0.5s;
+}
+/* .box form .inputBox input:valid ~ i,
+.box form .inputBox input:focus ~ i{
+    height: 40px;
+} */
+.box form .submit_form:hover{
+    background: black;
+    color: white;
+}
+.box form .submit_form:active{
+    background-color: #ffb302;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+/* input:-webkit-autofill{
+    -webkit-background-fill-color: yellow !important;
+} */
+.box1{
+    /* height: 300px; */
+    background: #ffb302;
+    width: 330px;
+}
+.box1 .form1{
+    position: absolute;
+    background: #222;
+    width: calc(100% - 4px);
+    inset: 2px;
+    z-index: 2;
+    border-radius: 39px;
+}
+#spinner{
+    position: absolute;
+    top: 35%;
+    right: 47%;
+    opacity: 0;
+    color: black;
+}
+.box form .submit_form:hover > #spinner{
+   color: white;
+}
+.hidden{
+    opacity: 0;
+}
+/* MEDIA QUERY */
+
+@media (min-width:320px)and (max-width: 480px)  { 
+    /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
+    .box{
+        width: 330px;
+        background: #ffb302;
+    }
+    .box form{
+        width: calc(100% - 4px);
+        position: absolute;
+        inset: 2px;
+        z-index: 2;
+        background: #222;
+        border-radius: 39px;
+    }
+    .right{
+        display: none;
+    }
+}
+@media (min-width:480px)and (max-width: 610px)  { 
+    /* smartphones, Android phones, landscape iPhone */ 
+    .box{
+        width: 330px;
+        background: #ffb302;
+    }
+    .box form{
+        width: calc(100% - 4px);
+        position: absolute;
+        inset: 2px;
+        z-index: 2;
+        background: #222;
+        border-radius: 39px;
+    }
+    .right{
+        display: none;
+    }
+}
+@media (min-width:610px)and (max-width: 801px)  { 
+    /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */ 
+    .box{
+        width: 580px;
+    }
+    .box1{
+        width: 330px;
+    }
+}
+
+@media (min-width:801px) { 
+    /* hi-res laptops and desktops */
+}

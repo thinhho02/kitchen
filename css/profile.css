@@ -1,0 +1,155 @@
+#ftco-navbar {
+    margin: 0;
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    background: #fff !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    z-index: 3;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.btn-change {
+    border-radius: 10px;
+}
+
+#changeInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 12px;
+}
+
+.toast {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    border-radius: 6px;
+    background: #fff;
+    z-index: 999999;
+    padding: 5px 15px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-left: 8px solid #40f467;
+    overflow: hidden;
+    transform: translateX(calc(100% + 30px));
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.25, 1.35);
+    opacity: 1;
+}
+
+.toast.active {
+    transform: translateX(0);
+}
+
+.toast-content {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.toast-check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
+    background-color: #40f467;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 10px;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.message-text {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.text-1 {
+    color: #333;
+}
+
+.text-2 {
+    color: #666;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.toast-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+.progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: #ddd;
+}
+
+.progress::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #40f467;
+}
+
+.progress.active::before {
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    100% {
+        right: 100%;
+    }
+}
+
+#confirmPassword.active,
+#oldPassword.active {
+    border: 1px solid red;
+}
+
+#myTabProfile {
+    margin-bottom: 50px;
+}
+
+#myTabProfile .nav-item {
+    margin-bottom: 0;
+}
+
+#myTabProfile .nav-item .nav-link {
+    border: none;
+    background-color: transparent;
+    color: black;
+    transition: color 0.2s ease-in-out;
+}
+#myTabProfile .nav-item .nav-link:hover{
+    color: #ffb302;
+}
+/* #myTabProfile .nav-item .nav-link:focus{
+
+} */
+#myTabProfile .nav-item .nav-link.active {
+    color: #ffb302;
+    border-bottom: 1px solid #ffb302;
+}
