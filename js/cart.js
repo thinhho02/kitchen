@@ -21,18 +21,17 @@ $(document).ready(function () {
 
 
 
-    // set ngày hiện tại để so sánh database
-    let setDate = new Date()
-    const offset = setDate.getTimezoneOffset() * 60000
-    let c = new Date(setDate.getTime() - offset)
-    let currentDate = c.toISOString().split("T")[0]
-    // console.log(currentDate)
+
 
 
 
     $("#date").attr({ "min": valueMinDate, "max": valueMaxDate })
-    $("#date").val(valueMinDate)
-    let date = $("#date").val()
+    localStorage.getItem("date") !== null ? $("#date").val(localStorage.getItem("date")) : $("#date").val(valueMinDate)
+
+
+    let date =  $("#date").val()
+    
+
     let idUser = $("#getId").val()
     // console.log(date)
     const getQuantity = async (valueInput, menuId, receiptId) => {
@@ -54,68 +53,76 @@ $(document).ready(function () {
             url: `api/user/fetch_update_cart.php?date=${date}`,
             method: "POST",
             data: {
-                idUser: idUser,
-                currentDate: currentDate
+                idUser: idUser
             },
             dataType: "JSON",
             success: function (data) {
+                console.log(data)
                 if (!(data.message)) {
-                    $(".cart-footer").attr("style","display: block")
+                    $(".cart-footer").attr("style", "display: block")
 
-                    // console.log(data)
 
                     for (let i = 1; i < data.length; i++) {
                         let cart =
-                            `<tr class="fadeInUp ftco-animated">
-                    <td class="img rounded-circle" style="padding: 20px;">
-                        <img src="image/${data[i].image}" alt="" style="width: 70px; height: 70px ">
-                    </td>
-                    <td class="detail">
-                        <span>${data[i].name}</span>
-                    </td>
-                    <td class="medium-hide right price price_st${data[i].menu_id}">
-                        <div class="spinner-border spinner-border-sm spinner" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <span class="price_menu">${Number(data[i].price).toLocaleString("en-US")}đ</span>
-                    </td>
-                    <td class="quantity">
-                        <div class="row align-items-center btn-quantity" style="margin: 0;">
-                            <div class="buy-amount">
-                                <button type="button" class="minus-btn" style="border-right: 1px solid black">
-                                    <ion-icon name="remove-outline"></ion-icon>
-                                </button>
-                                <input class="input-quantity" type="number" name="amount" value="${data[i].quantity}" min="1">
-                                <input type="hidden" class="menu_id" value="${data[i].menu_id}">
-                                <button type="button" class="plus-btn" style="border-left: 1px solid black">
-                                    <ion-icon name="add-outline"></ion-icon>
-                                </button>
-                            </div>
-                            <div class="del-product">
-                                <input type="hidden" class="delele_menu_id" value="${data[i].menu_id}">
-                                <button type="button" class="delete_cart">
-                                    <ion-icon name="trash-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
+                            `<tr class="menui${data[i].menu_id}i fadeInUp ftco-animated">
+                                <td class="img rounded-circle" style="padding: 20px;">
+                                    <a href="">
+                                        <img src="image/${data[i].menu_list[0].image}" alt="" style="width: 70px; height: 70px ">
+                                    </a>
+                                </td>
+                                <td class="detail">
+                                    <span class="dish_name"></span>
+                                </td>
+                                <td class="medium-hide right price price_st${data[i].menu_id}">
+                                    <div class="spinner-border spinner-border-sm spinner" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="price_menu">${Number(data[i].price).toLocaleString("en-US")}đ</span>
+                                </td>
+                                <td class="quantity">
+                                    <div class="row align-items-center btn-quantity" style="margin: 0;">
+                                        <div class="buy-amount">
+                                            <button type="button" class="minus-btn" style="border-right: 1px solid black">
+                                                <ion-icon name="remove-outline"></ion-icon>
+                                            </button>
+                                            <input class="input-quantity" type="number" name="amount" value="${data[i].quantity}" min="1">
+                                            <input type="hidden" class="menu_id" value="${data[i].menu_id}">
+                                            <button type="button" class="plus-btn" style="border-left: 1px solid black">
+                                                <ion-icon name="add-outline"></ion-icon>
+                                            </button>
+                                        </div>
+                                        <div class="del-product">
+                                            <input type="hidden" class="delele_menu_id" value="${data[i].menu_id}">
+                                            <button type="button" class="delete_cart">
+                                                <ion-icon name="trash-outline"></ion-icon>
+                                            </button>
+                                        </div>
+                                    </div>
 
-                    </td>
-                    <td class="small-hide right price price_st${data[i].menu_id}">
-                        <div class="spinner-border spinner-border-sm spinner" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <span class="price_menu">${Number(data[i].price).toLocaleString("en-US")}đ</span>
-                    </td>
-                </tr>`
+                                </td>
+                                <td class="small-hide right price price_st${data[i].menu_id}">
+                                    <div class="spinner-border spinner-border-sm spinner" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="price_menu">${Number(data[i].price).toLocaleString("en-US")}đ</span>
+                                </td>
+                            </tr>`
                         // $(".table-cart tbody").remove()
                         $(".table-cart tbody").append(cart)
+                        let dishList = new Array()
+                        for (let j = 0; j < data[i].menu_list.length; j++) {
+                            dishList.push(data[i].menu_list[j].name)
+                            // console.log(dishList)
+                        }
+                        $(`.menui${data[i].menu_id}i .detail .dish_name`).append(dishList.join(", "))
                     }
-                    $(".check-out .subtotal .total p").append(`<span>${Number(data[0].subtotal).toLocaleString("en-US")}đ</span>`)
+                    $(`.check-out .subtotal .total p`).append(`<span>${Number(data[0].subtotal).toLocaleString("en-US")}đ</span>`)
+
                 } else {
 
                     let message = `<tr class="fadeInUp ftco-animated"><td colspan="4" style="grid-column: 2/4;"><p style="text-align: center; font-size: 20px;color: #a93737;">${data.message}</p></td></tr>`
                     $(".table-cart tbody").append(message)
-                    $(".cart-footer").attr("style","display: none !important")
+                    $(".cart-footer").attr("style", "display: none !important")
                 }
             },
             complete: function (data) {
@@ -123,20 +130,37 @@ $(document).ready(function () {
 
                 $("#checkout").off("click").on("click", async function () {
                     if (!(data.responseJSON.message)) {
-                        console.log(data.responseJSON)
+                        let dateObject = new Date(date);
+
+                        // Lấy năm và tháng từ đối tượng Date
+                        let nam = dateObject.getFullYear();
+                        let thang = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
+
+                        // Tạo chuỗi mới với định dạng year-month
+                        let yearMonth = `${nam}-${thang < 10 ? '0' : ''}${thang}`;
+
+
+
+                        // console.log(data.responseJSON)
+                        // console.log(yearMonth)
+
                         let note = $("#addnote").val()
+
                         await $.ajax({
                             url: `api/user/fetch_update_cart.php`,
                             method: "POST",
                             dataType: "JSON",
                             data: {
                                 checkout_receipt: data.responseJSON[0].id_receipt,
-                                note: note
+                                note: note,
+                                yearMonth: yearMonth,
+                                idUser: idUser
                             },
                             success: function (data) {
                                 console.log(data)
-                                if (data.success === 'ok') {
-                                    location.href = "#";
+                                if (data.success) {
+                                    alert(data.message)
+                                    location.href = "order.php";
                                 }
                             }
                         })
@@ -275,6 +299,7 @@ $(document).ready(function () {
 
 
     $("#date").blur(() => {
+        localStorage.removeItem("date")
         $(".table-cart tbody").empty()
         $(".check-out .subtotal .total p").empty()
         let currentMin = $("#date").attr("min")

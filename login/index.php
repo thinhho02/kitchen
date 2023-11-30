@@ -7,7 +7,7 @@ if (isset($_SESSION['employee_id'])) {
     header("location:../");
     exit();
 } elseif (isset($_SESSION['employee_manager_id'])) {
-    header("location:");
+    header("location:../admin");
     exit();
 } elseif (isset($_SESSION['employee_deliver_id'])) {
     header("location:");

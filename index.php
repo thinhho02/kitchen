@@ -44,6 +44,7 @@ $row = mysqli_fetch_assoc($select);
 
 </head>
 
+
 <body>
 	<!-- Get ID -->
 	<input type="hidden" name="getId" id="getId" value="<?php echo $id; ?>">
@@ -155,157 +156,52 @@ $row = mysqli_fetch_assoc($select);
 					<span class="subheading">Specialties</span>
 					<h2 class="mb-4">Our Menu</h2>
 				</div>
+				<div class="col-md-12 ftco-animate input_date">
+					<div class="form-group">
+						<input type="date" class="date" name="date_menu" id="date_menu" placeholder="">
+					</div>
+				</div>
 			</div>
+
 			<div class="tab-content pill-tabContent">
-				<div class="tab-pane fade show active">
+				<div class="tab-pane fade show active" id="tab-menu">
 					<div class="col-md-12 col-lg-6 col-xl-6">
 						<div class="menu-wrap">
-							<div class="menus ftco-animate">
-								<div class="link-addNow">
-									<a href="#" class="btn addNow">Đặt ngay</a>
-								</div>
-								<a href="" class="d-flex">
-									<div class="menu-img img" style="background-image: url(images/breakfast-1.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Combo 1</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">29,000đ</span>
-											</div>
-										</div>
-										<p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-									</div>
-								</a>
-								<div class="add-cart">
 
-									<a href="" class="btn link-add">Thêm giỏ hàng</a>
-								</div>
-							</div>
-							<div class="menus ftco-animate">
+							<!-- <div class="menus ftco-animate">
 								<div class="link-addNow">
-									<a href="" class="btn addNow">Đặt ngay</a>
+									<button type="button" class="btn addNow">Đặt ngay</button>
 								</div>
-								<a href="" class="d-flex">
-									<div class="menu-img img" style="background-image: url(images/lunch-2.jpg);"></div>
+								<div class="d-flex">
+									<div class="image_menu btn-modal" type="button">
+										<div class="menu-img img" style="background-image: url(images/lunch-2.jpg);"></div>
+									</div>
 									<div class="text">
-										<div class="d-flex">
+										<a href="" class="d-flex">
 											<div class="one-half">
 												<h3>Combo 5</h3>
 											</div>
 											<div class="one-forth">
 												<span class="price">29,000đ</span>
 											</div>
-										</div>
-										<p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
+										</a>
+										<p><a href="">Meat</a>, <a href="">Potatoes</a>, <a>Rice</a>, <a>Tomatoe</a></p>
 									</div>
-								</a>
+								</div>
 								<div class="add-cart">
 
 									<a href="" class="btn link-add">Thêm giỏ hàng</a>
 								</div>
 							</div>
-							<div class="menus ftco-animate">
-								<div class="link-addNow">
-									<a href="" class="btn addNow">Đặt ngay</a>
-								</div>
-								<a href="" class="d-flex">
-									<div class="menu-img img" style="background-image: url(images/breakfast-3.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Combo 3</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">29,000đ</span>
-											</div>
-										</div>
-										<p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-									</div>
-								</a>
-								<div class="add-cart">
-
-									<a href="" class="btn link-add">Thêm giỏ hàng</a>
-								</div>
-							</div>
-							<span class="flat flaticon-breakfast" style="right: 0;"></span>
+							
+							<span class="flat flaticon-breakfast" style="right: 0;"></span> -->
 
 						</div>
 					</div>
 
 					<div class="col-md-12 col-lg-6 col-xl-6">
 						<div class="menu-wrap">
-							<div class="menus ftco-animate">
-								<div class="link-addNow">
-									<a href="" class="btn addNow">Đặt ngay</a>
-								</div>
-								<a href="" class="d-flex">
-									<div class="menu-img img" style="background-image: url(images/lunch-1.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Combo 4</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">29,000đ</span>
-											</div>
-										</div>
-										<p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-									</div>
-								</a>
-								<div class="add-cart">
 
-									<a href="" class="btn link-add">Thêm giỏ hàng</a>
-								</div>
-							</div>
-							<div class="menus d-flex ftco-animate">
-								<div class="link-addNow">
-									<a href="" class="btn addNow">Đặt ngay</a>
-								</div>
-								<a href="" class="d-flex">
-									<div class="menu-img img" style="background-image: url(images/lunch-2.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Combo 5</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">29,000đ</span>
-											</div>
-										</div>
-										<p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-									</div>
-								</a>
-								<div class="add-cart">
-
-									<a href="" class="btn link-add">Thêm giỏ hàng</a>
-								</div>
-							</div>
-							<div class="menus ftco-animate">
-								<div class="link-addNow">
-									<a href="" class="btn addNow">Đặt ngay</a>
-								</div>
-								<a href="" class="d-flex">
-									<div class="menu-img img" style="background-image: url(images/lunch-2.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Combo 5</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">29,000đ</span>
-											</div>
-										</div>
-										<p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-									</div>
-								</a>
-								<div class="add-cart">
-
-									<a href="" class="btn link-add">Thêm giỏ hàng</a>
-								</div>
-							</div>
-							<span class="flat flaticon-chicken" style="right: 0;"></span>
 						</div>
 					</div>
 				</div>
@@ -339,7 +235,7 @@ $row = mysqli_fetch_assoc($select);
 				<div class="col-md-12 ftco-animate input_date">
 
 					<div class="form-group">
-						<input type="date" name="date" id="date" placeholder="">
+						<input type="date" class="date" name="date" id="date" placeholder="">
 					</div>
 
 				</div>

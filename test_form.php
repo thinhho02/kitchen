@@ -168,6 +168,7 @@
 </style>
 <?php
 include 'connect/connect.php';
+// $con = mysqli_connect("localhost","root","","kitchen_management");
 
 if (isset($_POST['submit'])) {
     $api_key = 'b990ef90090947968e8191c56b855318';

@@ -8,13 +8,10 @@ if (
 ) {
     $date = $_REQUEST['date'];
     $id_user = $_POST['idUser'];
-    // Xóa đơn hàng khi quá ngày thêm giỏ hàng
-    $current_date = $_POST['currentDate'];
-    $delete = mysqli_query($con, "DELETE FROM `receipts` WHERE `created_time` = '$current_date' and `status` = 'cart'");
-
 
     $select_receipt = mysqli_query($con, "SELECT `payment`.`employee_id`,`receipts`.`receipt_id`,`receipts`.`price` 
-                                            FROM `payment` inner join `receipts` on `payment`.`id` = `receipts`.`payment_id` 
+                                            FROM `payment` 
+                                            inner join `receipts` on `payment`.`id` = `receipts`.`payment_id` 
                                             Where `receipts`.`status` = 'cart' 
                                             and `receipts`.`created_time` = '$date'
                                             and `payment`.`employee_id` = '$id_user'");
@@ -24,17 +21,26 @@ if (
         $id_receipt = $row_receipt['receipt_id'];
 
         $data = [["id_receipt" => $id_receipt, "subtotal" => $price_receipt]];
-        $select_receipt_detail = mysqli_query($con, "SELECT `receipt_detail`.`quantity`, `receipt_detail`.`price`, `receipt_detail`.`menu_id`, `dishes`.`image`,`dishes`.`name`  
-                                                        FROM `payment` inner join `receipts` on `payment`.`id` = `receipts`.`payment_id` 
+        $select_receipt_detail = mysqli_query($con, "SELECT `receipt_detail`.`quantity`, `receipt_detail`.`price`, `receipt_detail`.`menu_id`
+                                                        FROM `payment` 
+                                                        inner join `receipts` on `payment`.`id` = `receipts`.`payment_id` 
                                                         inner join `receipt_detail` on `receipts`.`receipt_id` = `receipt_detail`.`receipt_id`  
                                                         inner join `menu` on `receipt_detail`.`menu_id` = `menu`.`menu_id`
-                                                        inner join `menu_list` on `menu`.`menu_id` = `menu_list`.`menu_id`
-                                                        inner join `dishes` on `menu_list`.`dish_id` = `dishes`.`dish_id`
                                                         WHERE `receipt_detail`.`receipt_id` = '$id_receipt' 
                                                         and `receipts`.`status` = 'cart'
                                                         and `payment`.`employee_id` = '$id_user'");
         if (mysqli_num_rows($select_receipt_detail) > 0) {
             while ($row_receipt_detail = mysqli_fetch_assoc($select_receipt_detail)) {
+                $data_menu = [];
+                $id_menu = $row_receipt_detail['menu_id'];
+                $select_menu_list = mysqli_query($con, "SELECT `menu_list`.`dish_id`, `dishes`.`image`, `dishes`.`name`
+                                                            FROM `menu_list`
+                                                            inner join `dishes` on `menu_list`.`dish_id` = `dishes`.`dish_id`
+                                                            WHERE `menu_list`.`menu_id` = $id_menu");
+                while($row_menu_list = mysqli_fetch_assoc($select_menu_list)){
+                    array_push($data_menu, $row_menu_list);
+                }
+                $row_receipt_detail['menu_list'] = $data_menu;
                 array_push($data, $row_receipt_detail);
             }
         } else {
@@ -87,15 +93,40 @@ if (
             mysqli_query($con, "DELETE FROM `receipts` WHERE `receipt_id` = '$id_receipt'");
         }
     }
-} elseif (isset($_POST['checkout_receipt']) && $_POST['checkout_receipt'] !== '') {
+} elseif (
+    isset($_POST['checkout_receipt']) && $_POST['checkout_receipt'] !== ''
+    && isset($_POST['yearMonth']) && $_POST['yearMonth'] !== ''
+    && isset($_POST['idUser']) && $_POST['idUser'] !== ''
+    ) {
+        //idUser
+    $idUser = $_POST['idUser'];
     $checkout_receipt = $_POST['checkout_receipt'];
-    if(isset($_POST['note']) && $_POST['note'] !== ''){
-        $note = $_POST['note'];
-        mysqli_query($con, "UPDATE `receipts` SET `note` = '$note',`status` = 'confirming' WHERE `receipt_id` = '$checkout_receipt'");
-    }else{
-        mysqli_query($con, "UPDATE `receipts` SET `status` = 'confirming' WHERE `receipt_id` = '$checkout_receipt'");
+    $note = ($_POST['note'] !== '') ? addslashes($_POST['note']) : '';
+    $yearMonth = addslashes($_POST['yearMonth']);
+
+
+    if(mysqli_query($con, "UPDATE `receipts` SET `note` = '$note',`status` = 'confirming' WHERE `receipt_id` = '$checkout_receipt'") === true){
+        $select_receipt = mysqli_query($con,"SELECT * 
+                                                FROM `receipts` 
+                                                WHERE `status` = 'confirming'
+                                                and DATE_FORMAT(`created_time`, '%Y-%m') = '$yearMonth' ");
+        if(mysqli_num_rows($select_receipt)>0){
+            $sum_receipts = 0;
+            $id_payment = 0;
+            while($row_receipt = mysqli_fetch_assoc($select_receipt)){
+                $sum_receipts += $row_receipt['price'];
+                $id_payment = $row_receipt['payment_id'];
+            }
+            if(mysqli_query($con,"UPDATE `payment` SET `total` = $sum_receipts 
+                                    WHERE `id` = $id_payment 
+                                    and `employee_id` = '$idUser' 
+                                    and DATE_FORMAT(`created_time`, '%Y-%m') = '$yearMonth'") === true){
+
+                $data = ["success" => "ok", "message" => "Đã đặt hàng thành công"];
+                setcookie("receipt",$checkout_receipt,time() + 3600,"/");
+            }
+        } 
+
     }
-    $data = ["success" => "ok"];
-    
 }
 echo json_encode($data, true);

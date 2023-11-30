@@ -21,17 +21,23 @@ $(document).ready(function () {
     let valueMinDate = setupMinDate.toISOString().split("T")[0]
     let valueMaxDate = setupMaxDate.toISOString().split("T")[0]
 
+    // date food
     $("#date").attr({ "min": valueMinDate, "max": valueMaxDate })
     $("#date").val(valueMinDate)
+
+    //date menu
+    $("#date_menu").attr({ "min": valueMinDate, "max": valueMaxDate })
+    $("#date_menu").val(valueMinDate)
 
     // END Set DATE MIN MAX
 
     let btnValue = 1;
     let date = $("#date").val();
+    let date_menu = $("#date_menu").val();
     // console.log(date)
 
 
-    const getFormCart = async (idMenu, idUser) => {
+    const getFormCart = async (idMenu, idUser, date) => {
         // Tạo một đối tượng Date từ chuỗi ngày
         let dateObject = new Date(date);
 
@@ -61,14 +67,133 @@ $(document).ready(function () {
         return response
     }
 
+    const getFormMenu = async (valueDateMenu) => {
+        await $.ajax({
+            url: `api/user/fetch_menu.php?dateMenu=${valueDateMenu}`,
+            method: "POST",
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data)
+                if (!(data.error)) {
+                    if (!(data.nodata)) {
+                        $(`#tab-menu .col-md-12 .menu-wrap`).css({
+                            "display": "block"
+                        })
+                        if ($(`#tab-menu > p`)) {
+                            $(`#tab-menu > p`).remove()
+                        }
+                        let combo = 0
+                        for (let i = 0; i < data.length; i++) {
+                            if (data[i].menu_id !== $(`#menus_id${data[i].menu_id}`).val()) {
+                                // console.log(data)
 
-    const getFormMenu = async (valueTab, valueDate) => {
+                                let tabMenu =
+                                    `<div class="menus menud${data[i].menu_id} fadeInUp ftco-animated">
+                                        <div class="link-addNow">
+                                            <button type="button" class="btn addNow" value="${data[i].menu_id}">Đặt ngay</button>
+                                        </div>
+                                    <div class="d-flex link-detail">
+                                        <div class="image_menu" type="button">
+                                            <div class="menu-img img" style="background-image: url(image/${data[i].menu_list[0].image});"></div>
+                                        </div>
+                                        <div class="text">
+                                            <button type="button" class="d-flex btn btn_modal" value="${data[i].menu_id}">
+                                                <div class="one-half">
+                                                    <h3>Combo ${++combo}</h3>
+                                                </div>
+                                                <div class="one-forth">
+                                                    <span class="price">${Number(data[i].price).toLocaleString("en-US")}đ</span>
+                                                </div>
+                                            </button>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="add-cart">        
+                                        <button type="button" class="btnaddcart btn link-add" value="addcart">Thêm giỏ hàng</button>
+                                        <input type="hidden" class="menusId" id="menus_id${data[i].menu_id}" value=${data[i].menu_id}>
+                                    </div>
+                                </div>`
+
+                                if (i < 3) {
+                                    // console.log(data)
+                                    // $(`#tab-${data[0].category_id} .col-md-12:first .menu-wrap`).empty()
+                                    $(`#tab-menu .col-md-12:first .menu-wrap`).append(tabMenu)
+                                    $(`#tab-menu .col-md-12:last .menu-wrap`).css({
+                                        "opacity": "0"
+                                    })
+
+                                } else {
+                                    // $(`#tab-${data[0].category_id} .col-md-12:first .menu-wrap`).empty()
+                                    $(`#tab-menu .col-md-12:last .menu-wrap`).append(tabMenu)
+                                    $(`#tab-menu .col-md-12:last .menu-wrap`).css({
+                                        "opacity": "1"
+                                    })
+                                }
+                                let menuList = new Array()
+                                // console.log(data[i].menu_list.length)
+                                for (let j = 0; j < data[i].menu_list.length; j++) {
+                                    menuList.push(`<button type="button" class="btn btn-link btn_dish_detail" value="${data[i].menu_list[j].dish_id}">${data[i].menu_list[j].name}</button>`)
+                                }
+                                $(`#tab-menu .col-md-12 .menu-wrap .menud${data[i].menu_id} .text p`).append(menuList.join(", "))
+
+                            }
+                        }
+                    } else {
+                        // console.log(data)
+                        $(`#tab-menu .col-md-12 .menu-wrap`).empty()
+                        $(`#tab-menu .col-md-12 .menu-wrap`).css({
+                            "display": "none"
+                        })
+                        if ($(`#tab-menu p`).length < 1) {
+                            $(`#tab-menu`).append(`<p class="p fadeInUp ftco-animated" style="width: 100%; text-align: center;">${data.nodata}</p>`)
+                            // $(`#tab-${valueTab} p:last`).remove()
+                        }
+
+                    }
+                }
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            },
+            complete: function (data) {
+                $(`.addNow`).off("click").on("click", async function () {
+                    let idMenu = $(this).val()
+                    let idUser = $("#getId").val()
+                    date_menu = $("#date_menu").val()
+
+                    await getFormCart(idMenu, idUser, date_menu).then((data) => {
+                        localStorage.setItem("date", date_menu);
+                        location.href = 'cart.php';
+                    })
+                })
+
+
+                $(`.btnaddcart`).off("click").on("click", async function () {
+                    let idMenu = $(this).siblings(".menusId").val()
+                    let idUser = $("#getId").val()
+                    date_menu = $("#date_menu").val()
+                    // console.log(data.responseJSON)
+                    // console.log(idMenu)
+                    // console.log(date_menu)
+                    await getFormCart(idMenu, idUser, date_menu).then((data) => {
+                        alert(data.message)
+                    })
+                })
+
+
+            }
+        })
+    }
+
+
+    const getFormFood = async (valueTab, valueDate) => {
 
 
         // console.log(current)
         // console.log(date)
         await $.ajax({
-            url: `api/user/fetch_menu.php?btnvalue=${valueTab}&date='${valueDate}'`,
+            url: `api/user/fetch_food.php?btnvalue=${valueTab}&date='${valueDate}'`,
             method: "POST",
             dataType: "JSON",
             success: (data) => {
@@ -91,23 +216,20 @@ $(document).ready(function () {
                             if (data[i].menu_id !== $(`#menus_id${data[i].menu_id}`).val()) {
                                 // console.log(data)
 
-                                let tab1 =
+                                let tabFood =
                                     `<div class="menus fadeInUp ftco-animated">
-                                    <div class="link-addNow">
-                                        <a href="" class="btn addNow">Đặt ngay</a>
-                                    </div>
                                     <div class="d-flex link-detail">
                                         <a href="#" class="menu-img img" style="background-image: url(image/${data[i].image});"></a>
                                         <div class="text">
-                                            <div class="d-flex">
+                                            <a href="#" class="d-flex">
                                                 <div class="one-half">
                                                     <h3>${data[i].name}</h3>
                                                 </div>
                                                 <div class="one-forth">
                                                     <span class="price">${Number(data[i].price).toLocaleString("en-US")}đ</span>
                                                 </div>
-                                            </div>
-                                            <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
+                                            </a>
+                                            <p><span>${data[i].resources.join(", ")}</span</p>
                                         </div>
                                     </div>
                                     <div class="add-cart">        
@@ -116,23 +238,23 @@ $(document).ready(function () {
                                         <input type="hidden" class="menusId" id="menus_id${data[i].menu_id}" name="menus_id" value=${data[i].menu_id}>
                                     </div>
                                 </div>`
+
                                 if (i < 3) {
                                     // console.log(data)
-                                    $(`#tab-${data[0].category_id} .col-md-12:first .menu-wrap`).empty()
-                                    $(`#tab-${data[0].category_id} .col-md-12:first .menu-wrap`).append(tab1)
+                                    // $(`#tab-${data[0].category_id} .col-md-12:first .menu-wrap`).empty()
+                                    $(`#tab-${data[0].category_id} .col-md-12:first .menu-wrap`).append(tabFood)
                                     $(`#tab-${data[0].category_id} .col-md-12:last .menu-wrap`).css({
                                         "opacity": "0"
                                     })
                                 } else {
-                                    $(`#tab-${data[0].category_id} .col-md-12:first .menu-wrap`).empty()
-                                    $(`#tab-${data[0].category_id} .col-md-12:last .menu-wrap`).append(tab1)
+                                    // $(`#tab-${data[0].category_id} .col-md-12:first .menu-wrap`).empty()
+                                    $(`#tab-${data[0].category_id} .col-md-12:last .menu-wrap`).append(tabFood)
                                     $(`#tab-${data[0].category_id} .col-md-12:last .menu-wrap`).css({
                                         "opacity": "1"
                                     })
                                 }
-                                // dishId = $(".dishes_id3")
+
                             }
-                            // let size = data.length/3 
 
 
                         }
@@ -158,9 +280,10 @@ $(document).ready(function () {
                 $(`.btnaddcart`).off("click").on("click", function () {
                     let idMenu = $(this).siblings(".menusId").val()
                     let idUser = $("#getId").val()
+                    let date = $("#date").val();
                     // console.log(data.responseJSON)
                     // console.log(idMenu)
-                    getFormCart(idMenu, idUser).then((data) => {
+                    getFormCart(idMenu, idUser, date).then((data) => {
                         alert(data.message)
                     })
                 })
@@ -169,12 +292,12 @@ $(document).ready(function () {
             }
         })
     }
-    getFormMenu(btnValue, date);
+    getFormFood(btnValue, date);
+    getFormMenu(date_menu);
     $(".btn-cate").click(function () {
-
         btnValue = $(this).attr("value");
         // console.log(btnValue)
-        getFormMenu(btnValue, date)
+        getFormFood(btnValue, date)
 
     })
 
@@ -199,12 +322,34 @@ $(document).ready(function () {
             date = $("#date").val()
 
         }
-        // console.log(date)
-        // console.log(btnValue)
-        getFormMenu(btnValue, date)
+        getFormFood(btnValue, date)
     })
-    // getFormMenu();
-    // console.log(dishId)
+
+
+    $("#date_menu").blur(() => {
+        $(`#tab-menu .col-md-12 .menu-wrap`).empty()
+        let currentMin = $("#date_menu").attr("min")
+        let currentMax = $("#date_menu").attr("max")
+
+        // console
+        if ($("#date_menu").val() < currentMin) {
+            // console.log(current)
+            $("#date_menu").val(currentMin)
+
+            date_menu = currentMin
+            // console.log(me)
+        } else if ($("#date_menu").val() > currentMax) {
+            $("#date_menu").val(currentMax)
+
+            date_menu = currentMax
+        }
+        else {
+            date_menu = $("#date_menu").val()
+
+        }
+        getFormMenu(date_menu);
+    })
+
 })
 
 

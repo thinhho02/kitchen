@@ -37,7 +37,7 @@ $(document).ready(function () {
                         // location.href = "../";
                         console.log(data.userId)
                     } else if (data.success === 'ok' && data.role === 'manager') {
-                        // location.href = "../";
+                        location.href = "../admin/";
                         console.log(data.userId)
                     }
                 } else {

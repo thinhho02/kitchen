@@ -6,10 +6,15 @@
 
 	const getStatusId = async (status) => {
 		const id = $("#getId").val()
+		const setDate = new Date()
+		const offset = setDate.getTimezoneOffset() * 60000
+		let c = new Date(setDate.getTime() - offset)
+		let currentDate = c.toISOString().split("T")[0]
 		await $.ajax({
 			url: `api/user/fetch_onl.php?id=${id}`,
 			data: {
-				statusUser: status
+				statusUser: status,
+				currentDate: currentDate
 			},
 			method: "POST",
 			dataType: "JSON",

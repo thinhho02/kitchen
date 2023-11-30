@@ -127,7 +127,7 @@ $row = mysqli_fetch_assoc($select);
 
                         <div class="form-group">
                             <!-- <label for="date">date</label> -->
-                            <input type="date" name="date" id="date" placeholder="">
+                            <input type="date" class="date" name="date" id="date" placeholder="">
                         </div>
 
                     </div>
@@ -163,7 +163,7 @@ $row = mysqli_fetch_assoc($select);
                         <h6>Tổng tiền</h6>
                         <p></p>
                     </div>
-                    <small>Vui lòng kiểm tra trước khi đặt hàng</small>
+                    <small style="color: red; font-weight: bold">Vui lòng kiểm tra trước khi đặt hàng</small>
                 </div>
                 <div class="btn-check-out">
                     <button class="btn" type="button" id="checkout" name="checkout">Đặt hàng</button>
