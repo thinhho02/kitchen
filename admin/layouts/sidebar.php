@@ -4,7 +4,7 @@
     <!-- Start: Avatar -->
     <div class="py-4 px-3 mb-2">
         <div class="media d-flex justify-content-center flex-column align-items-center">
-            <img src="/kitchen/image/" alt="avatar" width="80" height="80"
+            <img src="/kitchen/image/<?php echo $row_user['avtar']; ?>" alt="avatar" width="80" height="80"
                  class="rounded-circle img-thumbnail shadow-sm">
             <div class="media-body text-center">
                 <h5 class="m-0"><?php echo $row_user['full_name']; ?></h5>

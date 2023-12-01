@@ -43,7 +43,19 @@ $row = mysqli_fetch_assoc($select);
 	<link rel="Shortcut Icon" type="image/png" href="image/icons8-restaurant-bubbles-96.png">
 
 </head>
+<style>
+	.table-responsive .table th,
+	.table-responsive .table td {
+		vertical-align: middle;
+	}
 
+	@media (min-width: 576px) {
+		.modal-dialog {
+			max-width: 980px;
+			margin: 1.75rem auto;
+		}
+	}
+</style>
 
 <body>
 	<!-- Get ID -->
@@ -108,6 +120,7 @@ $row = mysqli_fetch_assoc($select);
 		</div>
 	</nav>
 	<!-- END Header -->
+	<!-- Button trigger modal -->
 
 
 	<!-- Start Slide Show -->
@@ -207,6 +220,43 @@ $row = mysqli_fetch_assoc($select);
 				</div>
 			</div>
 			<!-- END MENU -->
+
+			<!-- Modal -->
+			<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" style="font-size: 25px; color: black;">Chi tiết món ăn</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true" style="font-size: 35px;">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="container-fluid">
+								<div class="table-responsive">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th scope="col" style="min-width: 50px;">#</th>
+												<th scope="col" style="min-width: 120px;">Hình ảnh</th>
+												<th scope="col" style="min-width: 200px;">Tên món ăn</th>
+												<th scope="col" style="min-width: 150px;">Loại món ăn</th>
+												<th scope="col" style="min-width: 200px;">Nguyên liệu</th>
+												<th scope="col" style="min-width: 100px;">Đánh giá</th>
+											</tr>
+										</thead>
+										<tbody class="menu_modal">
+									
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<!-- END MODAL -->
 
 			<!-- Start Food -->
 

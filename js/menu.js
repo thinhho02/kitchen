@@ -93,11 +93,11 @@ $(document).ready(function () {
                                             <button type="button" class="btn addNow" value="${data[i].menu_id}">Đặt ngay</button>
                                         </div>
                                     <div class="d-flex link-detail">
-                                        <div class="image_menu" type="button">
+                                        <div class="image_menu" type="button" data-toggle="modal" data-target="#modelId">
                                             <div class="menu-img img" style="background-image: url(image/${data[i].menu_list[0].image});"></div>
                                         </div>
                                         <div class="text">
-                                            <button type="button" class="d-flex btn btn_modal" value="${data[i].menu_id}">
+                                            <button type="button" class="d-flex btn btn_modal" value="${data[i].menu_id}" data-toggle="modal" data-target="#modelId">
                                                 <div class="one-half">
                                                     <h3>Combo ${++combo}</h3>
                                                 </div>
@@ -132,7 +132,7 @@ $(document).ready(function () {
                                 let menuList = new Array()
                                 // console.log(data[i].menu_list.length)
                                 for (let j = 0; j < data[i].menu_list.length; j++) {
-                                    menuList.push(`<button type="button" class="btn btn-link btn_dish_detail" value="${data[i].menu_list[j].dish_id}">${data[i].menu_list[j].name}</button>`)
+                                    menuList.push(`<span>${data[i].menu_list[j].name}</span>`)
                                 }
                                 $(`#tab-menu .col-md-12 .menu-wrap .menud${data[i].menu_id} .text p`).append(menuList.join(", "))
 
@@ -157,6 +157,61 @@ $(document).ready(function () {
                 alert("Status: " + textStatus); alert("Error: " + errorThrown);
             },
             complete: function (data) {
+                // console.log(data.responseJSON)
+                function getMenuById(menuId) {
+                    return data.responseJSON.find(function (menu) {
+                      return menu.menu_id === menuId;
+                    });
+                }
+                $('.btn_modal').off("click").on("click",function () {
+                    $(".menu_modal").empty()
+                    let count = 0
+                    let btnModalValue = $(this).val();
+                    let select = getMenuById(btnModalValue);
+                    
+                    for(i = 0; i < select.menu_list.length; i++){
+                        let addModal = `
+                                    <tr>
+                                        <th scope="row">${++count}</th>
+                                        <td class="image_dish-modal"><img src="image/${select.menu_list[i].image}" style="height: 80px;" width="80px" alt="..." class="img-thumbnail"></td>
+                                        <td class="name_dish-modal">${select.menu_list[i].name}</td>
+                                        <td class="cate_dish-modal">${select.menu_list[i].category}</td>
+                                        <td class="resources_dish-modal${select.menu_list[i].dish_id}">${select.menu_list[i].resources.join(", ")}</td>
+                                        <td style="font-size: 20px;">
+                                            <span class="d-flex align-items-center"><span style="line-height: 1;">${select.menu_list[i].avg_star.toFixed(1)}</span> <ion-icon name="star" style="color: gold; margin-left: 5px; font-size: 21px;"></ion-icon></span>
+                                        </td>
+                                    </tr>`
+                        $(".menu_modal").append(addModal)
+                        
+                    }
+                    
+                });
+
+                $('.image_menu').off("click").on("click",function () {
+
+                    $(".menu_modal").empty()
+                    let count = 0
+                    let btnModalValue = $(this).next().find('.btn_modal').val();
+                    let select = getMenuById(btnModalValue);
+                    
+                    for(i = 0; i < select.menu_list.length; i++){
+                        let addModal = `
+                                    <tr>
+                                        <th scope="row">${++count}</th>
+                                        <td class="image_dish-modal"><img src="image/${select.menu_list[i].image}" style="height: 80px;" width="80px" alt="..." class="img-thumbnail"></td>
+                                        <td class="name_dish-modal">${select.menu_list[i].name}</td>
+                                        <td class="cate_dish-modal">${select.menu_list[i].category}</td>
+                                        <td class="resources_dish-modal${select.menu_list[i].dish_id}">${select.menu_list[i].resources.join(", ")}</td>
+                                        <td style="font-size: 20px;">
+                                            <span class="d-flex align-items-center"><span style="line-height: 1;">${select.menu_list[i].avg_star.toFixed(1)}</span> <ion-icon name="star" style="color: gold; margin-left: 5px; font-size: 21px;"></ion-icon></span>
+                                        </td>
+                                    </tr>`
+                        $(".menu_modal").append(addModal)
+
+                    }
+                    // console.log(btnModalValue);
+                });
+
                 $(`.addNow`).off("click").on("click", async function () {
                     let idMenu = $(this).val()
                     let idUser = $("#getId").val()
@@ -219,9 +274,9 @@ $(document).ready(function () {
                                 let tabFood =
                                     `<div class="menus fadeInUp ftco-animated">
                                     <div class="d-flex link-detail">
-                                        <a href="#" class="menu-img img" style="background-image: url(image/${data[i].image});"></a>
+                                        <a href="detail.php?id=${data[i].dish_id}" class="menu-img img" style="background-image: url(image/${data[i].image});"></a>
                                         <div class="text">
-                                            <a href="#" class="d-flex">
+                                            <a href="detail.php?id=${data[i].dish_id}" class="d-flex">
                                                 <div class="one-half">
                                                     <h3>${data[i].name}</h3>
                                                 </div>

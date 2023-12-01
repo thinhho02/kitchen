@@ -219,20 +219,20 @@ $row = mysqli_fetch_assoc($select);
 
                         </div>
                         <div class="row">
-                            <dt class="col-3">Loại món ăn:</dt>
-                            <dd class="col-9">Regular</dd>
+                            <dt class="col-4">Loại món ăn:</dt>
+                            <dd class="col-8">Regular</dd>
 
-                            <dt class="col-3">Giá:</dt>
-                            <dd class="col-9">Brown</dd>
+                            <dt class="col-4">Giá:</dt>
+                            <dd class="col-8">Brown</dd>
 
-                            <dt class="col-3">Ngày đặt:</dt>
-                            <dd class="col-9">Cotton, Jeans</dd>
+                            <dt class="col-4">Ngày đặt:</dt>
+                            <dd class="col-8">Cotton, Jeans</dd>
 
-                            <dt class="col-3">Nguyên liệu:</dt>
-                            <dd class="col-9">Reebook</dd>
+                            <dt class="col-4">Nguyên liệu:</dt>
+                            <dd class="col-8">Reebook</dd>
 
-                            <dt class="col-3">Mô tả: </dt>
-                            <p class="col-9">
+                            <dt class="col-4">Mô tả: </dt>
+                            <p class="col-8">
                                 Modern look and quality demo item is a streetwear-inspired collection that continues to break away from the conventions of mainstream fashion. Made in Italy, these black and brown clothing low-top shirts for
                                 men.
                             </p>
@@ -353,60 +353,6 @@ $row = mysqli_fetch_assoc($select);
                             </div>
                         </div>
                         <!-- Pills content -->
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="px-0 border rounded-2 shadow-0">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Similar items</h5>
-                                <div class="d-flex mb-3">
-                                    <a href="#" class="me-3">
-                                        <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
-                                    </a>
-                                    <div class="info">
-                                        <a href="#" class="nav-link mb-1">
-                                            Rucksack Backpack Large <br />
-                                            Line Mounts
-                                        </a>
-                                        <strong class="text-dark"> $38.90</strong>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex mb-3">
-                                    <a href="#" class="me-3">
-                                        <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/9.webp" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
-                                    </a>
-                                    <div class="info">
-                                        <a href="#" class="nav-link mb-1">
-                                            Summer New Men's Denim <br />
-                                            Jeans Shorts
-                                        </a>
-                                        <strong class="text-dark"> $29.50</strong>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex mb-3">
-                                    <a href="#" class="me-3">
-                                        <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/10.webp" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
-                                    </a>
-                                    <div class="info">
-                                        <a href="#" class="nav-link mb-1"> T-shirts with multiple colors, for men and lady </a>
-                                        <strong class="text-dark"> $120.00</strong>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex">
-                                    <a href="#" class="me-3">
-                                        <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
-                                    </a>
-                                    <div class="info">
-                                        <a href="#" class="nav-link mb-1"> Blazer Suit Dress Jacket for Men, Blue color </a>
-                                        <strong class="text-dark"> $339.90</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

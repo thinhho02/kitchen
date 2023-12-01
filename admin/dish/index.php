@@ -2,18 +2,10 @@
 session_start();
 include '../../connect/connect.php';
 
-if(!isset($_SESSION['employee_manager_id'])){
-    header("location:/kitchen/login");
-    exit();
-}
-$id_manager = $_SESSION['employee_manager_id'];
-$select_user = mysqli_query($con, "SELECT *,CONCAT(`first_name`,'',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id_manager'");
-$row_user = mysqli_fetch_assoc($select_user); 
-
-$sql = "SELECT dishes.dish_id, dishes.name, categories.name AS category_name FROM dishes JOIN categories ON dishes.category_id = categories.id WHERE remove = 0";
+$sql = "SELECT dishes.dish_id, dishes.name, dishes.price, categories.name AS category_name FROM dishes JOIN categories ON dishes.category_id = categories.id WHERE remove = 0";
 
 if (isset($_GET['categories'])) {
-    $sql .= " and categories.name IN ('" . implode("', '", explode("--", $_GET['categories'])) . "')";
+    $sql .= " WHERE categories.name IN ('" . implode("', '", explode("--", $_GET['categories'])) . "')";
 }
 
 if (isset($_GET['sort'])) {
@@ -126,7 +118,7 @@ $dishes = mysqli_query($con, $sql);
                             <th scope="col" class="text-center">#</th>
                             <th scope="col" class="text-center">Tên</th>
                             <th scope="col" class="text-center">Danh mục</th>
-                            
+                            <th scope="col" class="text-center">Giá</th>
                             <th scope="col" class="text-center"></th>
                         </tr>
                         </thead>
@@ -142,7 +134,9 @@ $dishes = mysqli_query($con, $sql);
                                 <td class="align-middle">
                                     <?= $dish['category_name']; ?>
                                 </td>
-                                
+                                <td class="align-middle text-right">
+                                    <?= number_format($dish['price'], 0, ',', '.') . ' VNĐ'; ?>
+                                </td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center">
                                         <button type="button" class="btn btn-link" aria-label="view detail button"
@@ -218,7 +212,12 @@ $dishes = mysqli_query($con, $sql);
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    
+                    <div class="form-group">
+                        <label for="dish-price-insert">Giá:</label>
+                        <input name="price" type="number" value="10000" min="0" max="100000" class="form-control" required
+                               id="dish-price-insert"
+                               placeholder="Nhập giá món">
+                    </div>
                     <div class="form-group">
                         <label for="dish-description-insert">Mô tả:</label>
                         <textarea name="description" class="form-control" id="dish-description-insert" rows="3" required></textarea>
@@ -382,12 +381,13 @@ $dishes = mysqli_query($con, $sql);
                     orderable: false,
                 },
                 {
-                    targets: 3,
+                    targets: 4,
                     orderable: false,
                 }
             ],
             columns: [
                 {orderable: false},
+                null,
                 null,
                 null,
                 {orderable: false},

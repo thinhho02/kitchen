@@ -1,16 +1,6 @@
 <?php
-session_start();
 include '../../../connect/connect.php';
-
-if(!isset($_SESSION['employee_manager_id'])){
-    header("location:/kitchen/login");
-    exit();
-}
-$id_manager = $_SESSION['employee_manager_id'];
-$select_user = mysqli_query($con, "SELECT *,CONCAT(`first_name`,'',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id_manager'");
-$row_user = mysqli_fetch_assoc($select_user); 
-
-
+session_start();
 $dish_id = $_GET['id'] ?? null;
 
 $sql = "SELECT * FROM dishes WHERE dish_id = $dish_id";
@@ -81,14 +71,19 @@ $dishDetails = mysqli_query($con, "SELECT resources.name, resources.price, resou
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label for="dish-price">Giá</label>
+                        <input name="price" value="<?php echo $dish['price']; ?>" type="number" class="form-control"
+                               id="dish-price" aria-describedby="dish name" placeholder="Nhập giá món" required min="0">
+                    </div>
 
                     <div class="form-group">
                         <label for="dish-is_approved">Tình trạng xét duyệt</label>
                         <select name="is_approved" disabled class="form-control" id="dish-is_approved"
                                 value="<?php echo $dish['is_approved']; ?>">
-                            <option value="1" <?php echo ($dish['is_approved'] == 0) ? 'selected' : ''; ?>>Chưa duyệt
+                            <option value="1" <?php echo ($dish['is_approved'] == 1) ? 'selected' : ''; ?>>Chưa duyệt
                             </option>
-                            <option value="0" <?php echo ($dish['is_approved'] == 1) ? 'selected' : ''; ?>>Đã duyệt
+                            <option value="0" <?php echo ($dish['is_approved'] == 0) ? 'selected' : ''; ?>>Đã duyệt
                             </option>
                         </select>
                     </div>
