@@ -5,11 +5,36 @@ session_start();
 include 'connect/connect.php';
 if (!isset($_SESSION['employee_id'])) {
     header("location: login/");
+    exit();
 }
 $id = $_SESSION['employee_id'];
-$select = mysqli_query($con, "SELECT * FROM `employees` WHERE `employee_id` = '$id'");
+$select = mysqli_query($con, "SELECT *,CONCAT(`first_name`,' ',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
 // if(mysqli_num_rows($select)===0) {header("location: login/");}
 $row = mysqli_fetch_assoc($select);
+
+if (!isset($_REQUEST['id'])) {
+    header("location: ./");
+    exit();
+}
+
+// select id menu
+$id_menu = $_REQUEST['id'];
+$select_menu = mysqli_query($con, "SELECT * FROM `menu` WHERE `menu_id` = $id_menu and `status` = 'food'");
+if (mysqli_num_rows($select_menu) == 0) {
+    header("location: ./");
+    exit();
+}
+$row_menu = mysqli_fetch_assoc($select_menu);
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+if ($row_menu['date'] <= date("Y-m-d")) {
+    header("location: ./");
+    exit();
+}
+
+
+
+
+
 ?>
 
 
@@ -37,8 +62,8 @@ $row = mysqli_fetch_assoc($select);
     <link rel="stylesheet" href="css/bootstrap-datepicker.css">
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="css/jquery.timepicker.css">
-
-
+    <link rel="stylesheet" href="css/star-rating.css">
+    <link href="themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="Shortcut Icon" type="image/png" href="image/icons8-restaurant-bubbles-96.png">
@@ -82,8 +107,7 @@ $row = mysqli_fetch_assoc($select);
         justify-content: center;
         margin: 0 !important;
         border: none;
-        width: 40px;
-        height: 40px;
+        width: 35px;
         padding: 0 !important;
         /* border-right: 1px solid black; */
         border-radius: 0;
@@ -102,6 +126,120 @@ $row = mysqli_fetch_assoc($select);
     .quantity input {
         border: none;
 
+    }
+
+    .rating_review {
+        display: flex;
+        align-items: center;
+        column-gap: 2rem;
+    }
+
+    .rating__average {
+        width: 30%;
+        background-color: var(--secondary);
+        padding: 1rem;
+        border-radius: .8rem;
+        text-align: center;
+    }
+
+    .rating__average h1 {
+        font-size: 3rem;
+        /* line-height: 0; */
+        margin: 0;
+        padding: 0;
+    }
+
+    .rating__averag p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .star-outer {
+        position: relative;
+        font-size: 2rem;
+
+        display: inline-block;
+    }
+
+    .star-outer::before {
+        content: "\2605 \2605 \2605 \2605 \2605";
+        color: #02020221;
+    }
+
+    .star-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 0%;
+        overflow: hidden;
+    }
+
+    .star-inner::before {
+        content: "\2605 \2605 \2605 \2605 \2605";
+        color: gold;
+    }
+
+    .rating__progress {
+        width: 70%;
+    }
+
+    .rating__progress-value {
+        height: 47px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        column-gap: 1rem;
+    }
+
+    .rating__progress-value p:first-child {
+        padding: 0;
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .rating__progress-value .star {
+        font-size: 25px;
+        color: gold;
+    }
+
+    .rating__progress-value p:last-child {
+        width: 10%;
+        padding: 0;
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .rating__progress .progress {
+        flex: 1 1 0;
+        height: .5rem;
+        border-radius: .5rem;
+        background-color: #ff02;
+
+    }
+
+    .bar {
+        height: 100%;
+        background-color: gold;
+        border-radius: .5rem;
+    }
+
+    .bar:nth-child(1) {
+        width: 80%;
+    }
+
+    .rating_detail .content {
+        width: 100%;
+    }
+
+    .message #input-message {
+        width: 100%;
+        height: 80px;
+        border-radius: 5px;
+    }
+
+    .message #input-message:focus {
+        outline: 1px solid #ffb302 !important;
     }
 
     @media screen and (min-width: 991px) and (max-width: 1200px) {
@@ -127,6 +265,7 @@ $row = mysqli_fetch_assoc($select);
 <body>
     <!-- Get ID -->
     <input type="hidden" name="getId" id="getId" value="<?php echo $id; ?>">
+    <input type="hidden" name="getIdMenu" id="getIdMenu" value="<?php echo $id_menu; ?>">
     <!-- Get ID -->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light scrolled awake" id="ftco-navbar">
         <div class="container">
@@ -147,29 +286,35 @@ $row = mysqli_fetch_assoc($select);
                     <img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
                 </button>
                 <div class="row flex-column profile-logout fade collapse" id="profile">
+                    <div class="name_user" style="padding: 8px 0;">
+                        <div class="d-flex align-items-center" style="gap: 30px; padding: 0 8px; color: white">
+                            <img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
+                            <span class="name" style="font-size: 23px;"><?php echo $row['full_name']; ?></span>
+                        </div>
+                    </div>
                     <a href="profile.php" class="link-profile">
-                        <div class="nav align-items-center profile-info" style="color: black">
+                        <div class="nav align-items-center profile-info" style="color: white">
                             <div class="icon-profile">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #887777;">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
                                     <ion-icon name="person-circle-outline" role="img" class="md hydrated"></ion-icon>
                                 </div>
                             </div>
                             <div class="infor-profile">
                                 <span class="p-0">Thông tin</span>
-                                <ion-icon name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+                                <ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
                             </div>
                         </div>
                     </a>
-                    <a href="login/logout.php?id=<?php echo $id ?>" class="link-profile">
-                        <div class="nav align-items-center profile-info" style="color: black">
+                    <a href="login/logout.php?id=<?php echo $_SESSION['employee_id'] ?>" class="link-profile">
+                        <div class="nav align-items-center profile-info" style="color: white">
                             <div class="icon-profile">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #887777;">
-                                    <ion-icon name="log-out-outline" role="img" class="md hydrated"></ion-icon>
+                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
+                                    <ion-icon name="log-out-outline"></ion-icon>
                                 </div>
                             </div>
                             <div class="infor-profile">
                                 <span class="p-0">Đăng xuất</span>
-                                <ion-icon name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+                                <ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
                             </div>
                         </div>
                     </a>
@@ -190,52 +335,50 @@ $row = mysqli_fetch_assoc($select);
         <div class="container">
             <div class="row gx-5">
                 <aside class="col-lg-6">
-                    <div class="rounded-4 mb-3 d-flex justify-content-center align-items-center h-100">
-                        <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image" href="#">
-                            <img style=" margin: auto;" class="rounded-4 fit image-fluid image_aside" src="image/raungot.jpg" />
-                        </a>
+                    <div class="rounded-4 mb-3 d-flex flex-column">
+                        <div data-fslightbox="mygalley" class="d-flex rounded-4" target="_blank" data-type="image">
+                            <img style=" margin: auto;" class="rounded-4 fit image-fluid image_aside" />
+                        </div>
+                        <div class="d-flex flex-column mt-3">
+                            <span class="col-sm-12" style="font-size: 20px; font-weight: bold;">Mô tả: </span>
+                            <p class="col-sm-12 description">
+
+                            </p>
+                        </div>
                     </div>
 
                     <!-- thumbs-wrap.// -->
                     <!-- gallery-wrap .end// -->
                 </aside>
-                <main class="col-lg-6">
+                <div class="col-lg-6">
                     <div class="ps-lg-3">
-                        <h4 class="title text-dark">
-                            Quality Men's Hoodie for Winter, Men's Fashion <br />
-                            Casual Hoodie
+                        <h4 class="title text-dark font-weight-bold name_dish">
+
                         </h4>
-                        <div class="d-flex flex-row my-3">
-                            <div class="text-warning mb-1 me-2 review_dish">
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star-half"></ion-icon>
-                                <span class="ms-1">
-                                    4.5
+                        <div class="d-flex flex-row">
+                            <div class="text-warning mb-1 review_dish">
+                                <div class="star-outer">
+                                    <div class="star-inner" style="width: 80%"></div>
+                                </div>
+                                <span class="ms-1 font-weight-bold">
+
                                 </span>
                             </div>
-
                         </div>
                         <div class="row">
                             <dt class="col-4">Loại món ăn:</dt>
-                            <dd class="col-8">Regular</dd>
+                            <dd class="col-8 cate"></dd>
 
                             <dt class="col-4">Giá:</dt>
-                            <dd class="col-8">Brown</dd>
+                            <dd class="col-8 price"></dd>
 
                             <dt class="col-4">Ngày đặt:</dt>
-                            <dd class="col-8">Cotton, Jeans</dd>
+                            <dd class="col-8 date_menu"></dd>
 
                             <dt class="col-4">Nguyên liệu:</dt>
-                            <dd class="col-8">Reebook</dd>
+                            <dd class="col-8 resource"></dd>
 
-                            <dt class="col-4">Mô tả: </dt>
-                            <p class="col-8">
-                                Modern look and quality demo item is a streetwear-inspired collection that continues to break away from the conventions of mainstream fashion. Made in Italy, these black and brown clothing low-top shirts for
-                                men.
-                            </p>
+
                         </div>
 
                         <hr />
@@ -248,7 +391,7 @@ $row = mysqli_fetch_assoc($select);
                                     <button class="btn px-3" type="button" id="button-addon1" style="border-right: 1px solid black;">
                                         <ion-icon name="remove-outline"></ion-icon>
                                     </button>
-                                    <input type="number" class="form-control text-center" value="1" min="1" />
+                                    <input type="number" class="form-control text-center input_quantity" value="1" min="1" />
                                     <button class="btn px-3" type="button" id="button-addon2" style="border-left: 1px solid black;">
                                         <ion-icon name="add-outline"></ion-icon>
                                     </button>
@@ -257,107 +400,57 @@ $row = mysqli_fetch_assoc($select);
                         </div>
                         <button type="button" class="btn btn-primary px-5 shadow-0" style="font-size: 20px;"> <i class="me-1 fa fa-shopping-basket"></i> Thêm giỏ hàng </button>
                     </div>
-                </main>
+                </div>
             </div>
         </div>
     </section>
     <!-- content -->
     <section class="bg-light border-top py-4">
-        <div class="container">
-            <div class="row gx-4">
-                <div class="col-lg-8 mb-4">
-                    <div class="border rounded-2 px-3 py-2 bg-white">
-                        <!-- Pills navs -->
-                        <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-                            <li class="nav-item d-flex" role="presentation">
-                                <a class="nav-link d-flex align-items-center justify-content-center w-100 active" id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab" aria-controls="ex1-pills-1" aria-selected="true">Specification</a>
-                            </li>
-                            <li class="nav-item d-flex" role="presentation">
-                                <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-2" data-mdb-toggle="pill" href="#ex1-pills-2" role="tab" aria-controls="ex1-pills-2" aria-selected="false">Warranty info</a>
-                            </li>
-                            <li class="nav-item d-flex" role="presentation">
-                                <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-3" data-mdb-toggle="pill" href="#ex1-pills-3" role="tab" aria-controls="ex1-pills-3" aria-selected="false">Shipping info</a>
-                            </li>
-                            <li class="nav-item d-flex" role="presentation">
-                                <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-4" data-mdb-toggle="pill" href="#ex1-pills-4" role="tab" aria-controls="ex1-pills-4" aria-selected="false">Seller profile</a>
-                            </li>
-                        </ul>
-                        <!-- Pills navs -->
 
-                        <!-- Pills content -->
-                        <div class="tab-content" id="ex1-content">
-                            <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
-                                <p>
-                                    With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur.
-                                </p>
-                                <div class="row mb-2">
-                                    <div class="col-12 col-md-6">
-                                        <ul class="list-unstyled mb-0">
-                                            <li><i class="fas fa-check text-success me-2"></i>Some great feature name here</li>
-                                            <li><i class="fas fa-check text-success me-2"></i>Lorem ipsum dolor sit amet, consectetur</li>
-                                            <li><i class="fas fa-check text-success me-2"></i>Duis aute irure dolor in reprehenderit</li>
-                                            <li><i class="fas fa-check text-success me-2"></i>Optical heart sensor</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-12 col-md-6 mb-0">
-                                        <ul class="list-unstyled">
-                                            <li><i class="fas fa-check text-success me-2"></i>Easy fast and ver good</li>
-                                            <li><i class="fas fa-check text-success me-2"></i>Some great feature name here</li>
-                                            <li><i class="fas fa-check text-success me-2"></i>Modern style and design</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <table class="table border mt-3 mb-2">
-                                    <tr>
-                                        <th class="py-2">Display:</th>
-                                        <td class="py-2">13.3-inch LED-backlit display with IPS</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="py-2">Processor capacity:</th>
-                                        <td class="py-2">2.3GHz dual-core Intel Core i5</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="py-2">Camera quality:</th>
-                                        <td class="py-2">720p FaceTime HD camera</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="py-2">Memory</th>
-                                        <td class="py-2">8 GB RAM or 16 GB RAM</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="py-2">Graphics</th>
-                                        <td class="py-2">Intel Iris Plus Graphics 640</td>
-                                    </tr>
-                                </table>
+        <div class="container my-3">
+            <h3>Đánh giá món ăn</h3>
+
+            <div class="rating_review">
+                <div class="rating__average">
+                    <h1></h1>
+                    <div class="star-outer">
+                        <div class="star-inner"></div>
+                    </div>
+                    <p style="font-size: 20px; margin: 0;"></p>
+                </div>
+                <div class="rating__progress">
+
+
+                </div>
+            </div>
+            <div class="row gx-4">
+                <div class="col-sm-12 my-4 mr-auto rating_detail">
+                    <div class="d-flex border-bottom my-3" style="align-items: flex-start">
+                        <div class="avt_user">
+                            <img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 50px; height: 50px; margin-right: 20px" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="rv_name_user" style="font-size: 19px;"><?php echo $row['full_name'] ?></div>
+                            <div class="rating_user">
+                                <input id="rating-input" type="number" title="" />
                             </div>
-                            <div class="tab-pane fade mb-2" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-                                Tab content or sample information now <br />
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            <div class="my-2 message">
+                                <input type="text" class="px-3 border" id="input-message" placeholder="Nhập đánh giá">
                             </div>
-                            <div class="tab-pane fade mb-2" id="ex1-pills-3" role="tabpanel" aria-labelledby="ex1-tab-3">
-                                Another tab content or sample information now <br />
-                                Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum.
-                            </div>
-                            <div class="tab-pane fade mb-2" id="ex1-pills-4" role="tabpanel" aria-labelledby="ex1-tab-4">
-                                Some other tab content or sample information now <br />
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                officia deserunt mollit anim id est laborum.
+                            <div class="my-2 d-flex justify-content-end">
+                                <button class="mx-3 btn btn-primary" id="btn_review">Đánh giá</button>
                             </div>
                         </div>
-                        <!-- Pills content -->
                     </div>
+
+
+
                 </div>
             </div>
         </div>
+
     </section>
+
 
     <!-- Footer -->
     <footer class="ftco-footer ftco-no-pb ftco-section">
@@ -451,8 +544,11 @@ $row = mysqli_fetch_assoc($select);
     <script src="js/google-map.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
     <script src="js/bootstrap-bundle.min.js"></script>
+    <script src="js/star-rating.js"></script>
+    <script src="themes/krajee-svg/theme.js" type="text/javascript"></script>
     <!-- <script src="js/main.js"></script> -->
     <script src="js/main_nosroll.js"></script>
+    <script src="js/detail.js"></script>
 </body>
 
 </html>

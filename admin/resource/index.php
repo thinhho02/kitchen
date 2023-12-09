@@ -2,6 +2,17 @@
 session_start();
 include '../../connect/connect.php';
 
+if (!isset($_SESSION['employee_manager_id'])) {
+    header("location: login/");
+}
+$id = $_SESSION['employee_manager_id'];
+
+// echo $id;
+$select_user = mysqli_query($con, "SELECT *,CONCAT(`first_name`,' ',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
+$row_user = mysqli_fetch_assoc($select_user);
+
+
+
 $sql = "SELECT * FROM resources";
 if (isset($_GET['units'])) {
     $units = explode("--", $_GET['units']);

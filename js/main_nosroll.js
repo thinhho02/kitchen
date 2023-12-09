@@ -19,9 +19,8 @@
 			method: "POST",
 			dataType: "JSON",
 			success: function (data) {
-				// if (!(data.message)) {
-				// 	// console.log(data.active)
-				// 	// data.active == 1 ? $("#status").html("<span style='color: green;'>Online</span>") : $("#status").html("<span style='color: red;'>Offline</span>")
+				// if (data.message) {
+				// 	location.href = 'login'
 				// }
 			}
 		})

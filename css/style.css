@@ -56,6 +56,9 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   color: #212529;
   text-align: left;
   background-color: #fff; }
@@ -1846,20 +1849,38 @@ select.form-control:focus::-ms-value {
     right: -50%;
     top: 100%;
     transform: translate(-59px, 17px);
-    background: #ffb302;
+    background: #777;
     border-radius: 20px;
     padding: 4px;
     width: 256px;
-    height: 110px !important;
-    transition: all 0.175s linear !important;
+    /* height: 110px !important; */
+  }
+  .profile-logout::before{
+    content: "";
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: -5px;
+    color: black;
+    background: #777;
+    z-index: -1;
+    right: 18px;
+    transform: rotate(45deg);
+  }
+  .name_user{
+    border-bottom: 1px solid black;
   }
   .link-profile{
     border-radius: 20px;
     height: 51px;
     padding: 0 5px;
   }
-  .link-profile:hover{
-    background: black;
+  /* .icon-active{
+    transition: transform 0.175s ease-out-in;
+  } */
+  .link-profile:hover .icon-active{
+    /* background: black; */
+    transform: translateX(5px);
   }
   .link-profile:hover .profile-info{
     color: #ffb302 !important;
@@ -4974,6 +4995,9 @@ a.close.disabled {
         -webkit-transition: none;
         -o-transition: none;
         transition: none; } }
+        .modal.show{
+          padding: 0 !important;
+        }
   .modal.show .modal-dialog {
     -webkit-transform: none;
     -ms-transform: none;
@@ -5114,7 +5138,7 @@ a.close.disabled {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 500px;
+    max-width: 900px;
     margin: 1.75rem auto; }
   .modal-dialog-scrollable {
     max-height: calc(100% - 3.5rem); }

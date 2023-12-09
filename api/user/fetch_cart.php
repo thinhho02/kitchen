@@ -24,7 +24,7 @@ if (
         if (mysqli_num_rows($select_payment) > 0) {
             $row_payment = mysqli_fetch_assoc($select_payment);
             $id_payment = $row_payment['id'];
-            $select_receipt = mysqli_query($con, "SELECT * FROM `receipts` WHERE `payment_id` = $id_payment and `created_time` = '$receipt_day' and `status`='cart'");
+            $select_receipt = mysqli_query($con, "SELECT * FROM `receipts` WHERE `payment_id` = $id_payment and `created_time` = '$receipt_day' and `status` = 'cart'");
             // id đơn hàng mới & so sánh csdl của dishes detail
             if (mysqli_num_rows($select_receipt) > 0) {
                 $row_receipt = mysqli_fetch_assoc($select_receipt);
@@ -41,7 +41,7 @@ if (
                         $select2_receiptDetail = mysqli_query($con, "SELECT * FROM `receipt_detail` WHERE `receipt_id` = '$id_receipt'");
                         while ($row_sum_receipt = mysqli_fetch_assoc($select2_receiptDetail)) {
                             $sum_receipt += $row_sum_receipt['price'];
-                            mysqli_query($con, "UPDATE `receipts` SET `price` = $sum_receipt WHERE `payment_id` = $id_payment and `created_time` = '$receipt_day'");
+                            mysqli_query($con, "UPDATE `receipts` SET `price` = $sum_receipt WHERE `payment_id` = $id_payment and `created_time` = '$receipt_day' and `status`='cart'");
                         }
                         $data = ["message" => "Thêm giỏ hàng thành công"];
                     }
@@ -54,7 +54,7 @@ if (
                         $select2_receiptDetail = mysqli_query($con, "SELECT * FROM `receipt_detail` WHERE `receipt_id` = '$id_receipt'");
                         while ($row_sum_receipt = mysqli_fetch_assoc($select2_receiptDetail)) {
                             $sum_receipt += $row_sum_receipt['price'];
-                            mysqli_query($con, "UPDATE `receipts` SET `price` = $sum_receipt WHERE `payment_id` = $id_payment and `created_time` = '$receipt_day'");
+                            mysqli_query($con, "UPDATE `receipts` SET `price` = $sum_receipt WHERE `payment_id` = $id_payment and `created_time` = '$receipt_day' and `status`='cart'");
                         }
                         $data = ["message" => "Thêm giỏ hàng thành công"];
                     }

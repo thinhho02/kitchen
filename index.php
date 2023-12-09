@@ -7,7 +7,7 @@ if (!isset($_SESSION['employee_id'])) {
 	header("location: login/");
 }
 $id = $_SESSION['employee_id'];
-$select = mysqli_query($con, "SELECT * FROM `employees` WHERE `employee_id` = '$id'");
+$select = mysqli_query($con, "SELECT *,CONCAT(`first_name`,' ',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
 // if(mysqli_num_rows($select)===0) {header("location: login/");}
 $row = mysqli_fetch_assoc($select);
 ?>
@@ -20,7 +20,9 @@ $row = mysqli_fetch_assoc($select);
 	<title>Menu</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Arimo&family=Pacifico&family=Poppins:wght@200;300&family=Public+Sans&family=Work+Sans&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
@@ -82,29 +84,35 @@ $row = mysqli_fetch_assoc($select);
 					<img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
 				</button>
 				<div class="row flex-column profile-logout fade collapse" id="profile">
+					<div class="name_user" style="padding: 8px 0;">
+						<div class="d-flex align-items-center" style="gap: 30px; padding: 0 8px; color: white">
+							<img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
+							<span class="name" style="font-size: 23px;font-family: 'Poppin';letter-spacing: 0.5px;"><?php echo $row['full_name']; ?></span>
+						</div>
+					</div>
 					<a href="profile.php" class="link-profile">
-						<div class="nav align-items-center profile-info" style="color: black">
+						<div class="nav align-items-center profile-info" style="color: white">
 							<div class="icon-profile">
-								<div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #887777;">
+								<div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
 									<ion-icon name="person-circle-outline" role="img" class="md hydrated"></ion-icon>
 								</div>
 							</div>
 							<div class="infor-profile">
 								<span class="p-0">Thông tin</span>
-								<ion-icon name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+								<ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
 							</div>
 						</div>
 					</a>
 					<a href="login/logout.php?id=<?php echo $_SESSION['employee_id'] ?>" class="link-profile">
-						<div class="nav align-items-center profile-info" style="color: black">
+						<div class="nav align-items-center profile-info" style="color: white">
 							<div class="icon-profile">
-								<div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #887777;">
+								<div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
 									<ion-icon name="log-out-outline"></ion-icon>
 								</div>
 							</div>
 							<div class="infor-profile">
 								<span class="p-0">Đăng xuất</span>
-								<ion-icon name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+								<ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
 							</div>
 						</div>
 					</a>
@@ -161,7 +169,7 @@ $row = mysqli_fetch_assoc($select);
 	<!-- END Slide Show -->
 
 	<!-- Start Main -->
-	<section class="ftco-section">
+	<section class="ftco-section" style="flex: 1;">
 		<div class="container menu-food">
 			<!-- START Menu -->
 			<div class="d-flex flex-column justify-content-center mb-5 pb-2">
@@ -222,7 +230,7 @@ $row = mysqli_fetch_assoc($select);
 			<!-- END MENU -->
 
 			<!-- Modal -->
-			<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+			<div class="modal fade" id="modelId" style="padding-right: 0;" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -242,17 +250,17 @@ $row = mysqli_fetch_assoc($select);
 												<th scope="col" style="min-width: 200px;">Tên món ăn</th>
 												<th scope="col" style="min-width: 150px;">Loại món ăn</th>
 												<th scope="col" style="min-width: 200px;">Nguyên liệu</th>
-												<th scope="col" style="min-width: 100px;">Đánh giá</th>
+												<th scope="col" style="min-width: 160px;">Đánh giá</th>
 											</tr>
 										</thead>
 										<tbody class="menu_modal">
-									
+
 										</tbody>
 									</table>
 								</div>
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 			</div>

@@ -7,7 +7,7 @@ if (!isset($_SESSION['employee_id'])) {
 $id = $_SESSION['employee_id'];
 
 // echo $id;
-$select = mysqli_query($con, "SELECT *, CONCAT(`first_name`, ' ', `last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
+$select = mysqli_query($con, "SELECT *,CONCAT(`first_name`,' ',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
 $row = mysqli_fetch_assoc($select);
 
 ?>
@@ -80,33 +80,39 @@ $row = mysqli_fetch_assoc($select);
                     <img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
                 </button>
                 <div class="row flex-column profile-logout fade collapse" id="profile">
-                    <a href="profile.php" class="link-profile">
-                        <div class="nav align-items-center profile-info" style="color: black">
-                            <div class="icon-profile">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #887777;">
-                                    <ion-icon name="person-circle-outline" role="img" class="md hydrated"></ion-icon>
-                                </div>
-                            </div>
-                            <div class="infor-profile">
-                                <span class="p-0">Thông tin</span>
-                                <ion-icon name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="login/logout.php?id=<?php echo $id ?>" class="link-profile">
-                        <div class="nav align-items-center profile-info" style="color: black">
-                            <div class="icon-profile">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #887777;">
-                                    <ion-icon name="log-out-outline" role="img" class="md hydrated"></ion-icon>
-                                </div>
-                            </div>
-                            <div class="infor-profile">
-                                <span class="p-0">Đăng xuất</span>
-                                <ion-icon name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+					<div class="name_user" style="padding: 8px 0;">
+						<div class="d-flex align-items-center" style="gap: 30px; padding: 0 8px; color: white">
+							<img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
+							<span class="name" style="font-size: 23px;"><?php echo $row['full_name']; ?></span>
+						</div>
+					</div>
+					<a href="profile.php" class="link-profile">
+						<div class="nav align-items-center profile-info" style="color: white">
+							<div class="icon-profile">
+								<div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
+									<ion-icon name="person-circle-outline" role="img" class="md hydrated"></ion-icon>
+								</div>
+							</div>
+							<div class="infor-profile">
+								<span class="p-0">Thông tin</span>
+								<ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+							</div>
+						</div>
+					</a>
+					<a href="login/logout.php?id=<?php echo $_SESSION['employee_id'] ?>" class="link-profile">
+						<div class="nav align-items-center profile-info" style="color: white">
+							<div class="icon-profile">
+								<div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
+									<ion-icon name="log-out-outline"></ion-icon>
+								</div>
+							</div>
+							<div class="infor-profile">
+								<span class="p-0">Đăng xuất</span>
+								<ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+							</div>
+						</div>
+					</a>
+				</div>
             </div>
 
         </div>
@@ -118,7 +124,7 @@ $row = mysqli_fetch_assoc($select);
         </div>
     </nav>
 
-    <main class="ftco-no-pb ftco-section" style="padding-top: 80px;">
+    <main class="ftco-no-pb ftco-section" style="padding-top: 80px; flex:1;">
         <div class="container ftco-animate" id="mainCart">
             <form action="" method="post" id="form-1">
                 <div class="header-cart">

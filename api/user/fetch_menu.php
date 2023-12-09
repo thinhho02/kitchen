@@ -50,7 +50,7 @@ if (isset($_REQUEST['dateMenu']) && $_REQUEST['dateMenu'] !== '') {
                     array_push($data_resource, $row_dish_detail['name']);
                 }
                 $row_dish['resources'] = $data_resource;
-                $row_dish['avg_star'] = $avg_star;
+                $row_dish['avg_star'] =  $avg_star;
                 array_push($data_menu, $row_dish);
             }
 

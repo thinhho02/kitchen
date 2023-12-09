@@ -106,10 +106,12 @@ if (
 
 
     if(mysqli_query($con, "UPDATE `receipts` SET `note` = '$note',`status` = 'confirming' WHERE `receipt_id` = '$checkout_receipt'") === true){
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $updateDateRecetipt = date('H:i:s');
+        mysqli_query($con, "UPDATE `receipt_detail` SET `created_time` = '$updateDateRecetipt' WHERE `receipt_id` = '$checkout_receipt'");
         $select_receipt = mysqli_query($con,"SELECT * 
                                                 FROM `receipts` 
-                                                WHERE `status` = 'confirming'
-                                                and DATE_FORMAT(`created_time`, '%Y-%m') = '$yearMonth' ");
+                                                WHERE DATE_FORMAT(`created_time`, '%Y-%m') = '$yearMonth' and `status` != 'cart' ");
         if(mysqli_num_rows($select_receipt)>0){
             $sum_receipts = 0;
             $id_payment = 0;

@@ -160,16 +160,16 @@ $(document).ready(function () {
                 // console.log(data.responseJSON)
                 function getMenuById(menuId) {
                     return data.responseJSON.find(function (menu) {
-                      return menu.menu_id === menuId;
+                        return menu.menu_id === menuId;
                     });
                 }
-                $('.btn_modal').off("click").on("click",function () {
+                $('.btn_modal').off("click").on("click", function () {
                     $(".menu_modal").empty()
                     let count = 0
                     let btnModalValue = $(this).val();
                     let select = getMenuById(btnModalValue);
-                    
-                    for(i = 0; i < select.menu_list.length; i++){
+
+                    for (i = 0; i < select.menu_list.length; i++) {
                         let addModal = `
                                     <tr>
                                         <th scope="row">${++count}</th>
@@ -178,23 +178,27 @@ $(document).ready(function () {
                                         <td class="cate_dish-modal">${select.menu_list[i].category}</td>
                                         <td class="resources_dish-modal${select.menu_list[i].dish_id}">${select.menu_list[i].resources.join(", ")}</td>
                                         <td style="font-size: 20px;">
-                                            <span class="d-flex align-items-center"><span style="line-height: 1;">${select.menu_list[i].avg_star.toFixed(1)}</span> <ion-icon name="star" style="color: gold; margin-left: 5px; font-size: 21px;"></ion-icon></span>
+                                            <span class="d-flex align-items-center review${select.menu_list[i].dish_id}"></span>
                                         </td>
                                     </tr>`
                         $(".menu_modal").append(addModal)
-                        
+                        if (select.menu_list[i].avg_star != 0) {
+                            $(`.review${select.menu_list[i].dish_id}`).append(`<span style="line-height: 1;">${select.menu_list[i].avg_star.toFixed(1)}</span> <ion-icon name="star" style="color: gold; margin-left: 5px; font-size: 21px;"></ion-icon>`)
+                        } else {
+                            $(`.review${select.menu_list[i].dish_id}`).append(`<span style="font-size: 16px">Chưa có đánh giá</span>`)
+                        }
                     }
-                    
+
                 });
 
-                $('.image_menu').off("click").on("click",function () {
+                $('.image_menu').off("click").on("click", function () {
 
                     $(".menu_modal").empty()
                     let count = 0
                     let btnModalValue = $(this).next().find('.btn_modal').val();
                     let select = getMenuById(btnModalValue);
-                    
-                    for(i = 0; i < select.menu_list.length; i++){
+
+                    for (i = 0; i < select.menu_list.length; i++) {
                         let addModal = `
                                     <tr>
                                         <th scope="row">${++count}</th>
@@ -203,11 +207,16 @@ $(document).ready(function () {
                                         <td class="cate_dish-modal">${select.menu_list[i].category}</td>
                                         <td class="resources_dish-modal${select.menu_list[i].dish_id}">${select.menu_list[i].resources.join(", ")}</td>
                                         <td style="font-size: 20px;">
-                                            <span class="d-flex align-items-center"><span style="line-height: 1;">${select.menu_list[i].avg_star.toFixed(1)}</span> <ion-icon name="star" style="color: gold; margin-left: 5px; font-size: 21px;"></ion-icon></span>
+                                            <span class="d-flex align-items-center review${select.menu_list[i].dish_id}"></span>
                                         </td>
                                     </tr>`
                         $(".menu_modal").append(addModal)
-
+                        // console.log(select.menu_list[i].avg_star)
+                        if (select.menu_list[i].avg_star != 0) {
+                            $(`.review${select.menu_list[i].dish_id}`).append(`<span style="line-height: 1;">${select.menu_list[i].avg_star.toFixed(1)}</span> <ion-icon name="star" style="color: gold; margin-left: 5px; font-size: 21px;"></ion-icon>`)
+                        } else {
+                            $(`.review${select.menu_list[i].dish_id}`).append(`<span style="font-size: 16px">Chưa có đánh giá</span>`)
+                        }
                     }
                     // console.log(btnModalValue);
                 });
@@ -274,9 +283,9 @@ $(document).ready(function () {
                                 let tabFood =
                                     `<div class="menus fadeInUp ftco-animated">
                                     <div class="d-flex link-detail">
-                                        <a href="detail.php?id=${data[i].dish_id}" class="menu-img img" style="background-image: url(image/${data[i].image});"></a>
+                                        <a href="detail.php?id=${data[i].menu_id}" class="menu-img img" style="background-image: url(image/${data[i].image});"></a>
                                         <div class="text">
-                                            <a href="detail.php?id=${data[i].dish_id}" class="d-flex">
+                                            <a href="detail.php?id=${data[i].menu_id}" class="d-flex">
                                                 <div class="one-half">
                                                     <h3>${data[i].name}</h3>
                                                 </div>

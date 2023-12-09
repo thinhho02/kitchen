@@ -7,7 +7,7 @@ if (!isset($_SESSION['employee_id'])) {
 $id = $_SESSION['employee_id'];
 
 // echo $id;
-$select = mysqli_query($con, "SELECT *, CONCAT(`first_name`, ' ', `last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
+$select = mysqli_query($con, "SELECT *,CONCAT(`first_name`,' ',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
 $row = mysqli_fetch_assoc($select);
 
 ?>
@@ -43,9 +43,9 @@ $row = mysqli_fetch_assoc($select);
 
 </head>
 <style>
-    
 
-    
+
+
 </style>
 
 <body>
@@ -60,6 +60,8 @@ $row = mysqli_fetch_assoc($select);
         <ion-icon class="toast-close" name="close-outline"></ion-icon>
         <div class="progress"></div>
     </div>
+
+
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light scrolled awake" id="ftco-navbar">
         <div class="container">
             <a class="navbar-brand" href="./">Dream</a>
@@ -79,29 +81,35 @@ $row = mysqli_fetch_assoc($select);
                     <img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
                 </button>
                 <div class="row flex-column profile-logout fade collapse" id="profile">
-                    <a href="" class="link-profile">
-                        <div class="nav align-items-center profile-info" style="color: black">
+                    <div class="name_user" style="padding: 8px 0;">
+                        <div class="d-flex align-items-center" style="gap: 30px; padding: 0 8px; color: white">
+                            <img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
+                            <span class="name" style="font-size: 23px;"><?php echo $row['full_name']; ?></span>
+                        </div>
+                    </div>
+                    <a href="profile.php" class="link-profile">
+                        <div class="nav align-items-center profile-info" style="color: white">
                             <div class="icon-profile">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #887777;">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
                                     <ion-icon name="person-circle-outline" role="img" class="md hydrated"></ion-icon>
                                 </div>
                             </div>
                             <div class="infor-profile">
                                 <span class="p-0">Thông tin</span>
-                                <ion-icon name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+                                <ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
                             </div>
                         </div>
                     </a>
-                    <a href="login/logout.php?id=<?php echo $id ?>" class="link-profile">
-                        <div class="nav align-items-center profile-info" style="color: black">
+                    <a href="login/logout.php?id=<?php echo $_SESSION['employee_id'] ?>" class="link-profile">
+                        <div class="nav align-items-center profile-info" style="color: white">
                             <div class="icon-profile">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #887777;">
-                                    <ion-icon name="log-out-outline" role="img" class="md hydrated"></ion-icon>
+                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
+                                    <ion-icon name="log-out-outline"></ion-icon>
                                 </div>
                             </div>
                             <div class="infor-profile">
                                 <span class="p-0">Đăng xuất</span>
-                                <ion-icon name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+                                <ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
                             </div>
                         </div>
                     </a>
@@ -119,13 +127,16 @@ $row = mysqli_fetch_assoc($select);
 
 
 
-    <div class="container-xl px-4 mt-4" style="margin-top: 6.5rem !important;margin-bottom: 6.5rem !important;">
+    <div class="container-xl px-4" style="padding-top: 6.5rem !important;margin-bottom: 6.5rem !important; flex: 1;">
         <ul class="nav nav-tabs" id="myTabProfile" role="tablist" style="margin-bottom: 50px">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profileUser" type="button" role="tab" aria-controls="profileUser" aria-selected="true">Thông tin cá nhân</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="order-tab" data-bs-toggle="tab" data-bs-target="#orderUser" type="button" role="tab" aria-controls="orderUser" aria-selected="false">Lịch sử đơn hàng</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="debt-tab" data-bs-toggle="tab" data-bs-target="#debtUser" type="button" role="tab" aria-controls="debtUser" aria-selected="false">Thanh toán</button>
             </li>
         </ul>
         <div class="tab-content pill-tabContent">
@@ -170,13 +181,13 @@ $row = mysqli_fetch_assoc($select);
                                     <div class="col-md-6">
                                         <label class="small mb-1" for="inputPhone">Số Căn Cước</label>
                                         <input class="form-control" id="inputPhone" type="tel" value="<?php
-                                                $firstString = substr($row['id_number'], 0, 4);
-                                                $lastString = substr($row['id_number'], 8);
+                                                                                                        $firstString = substr($row['id_number'], 0, 4);
+                                                                                                        $lastString = substr($row['id_number'], 8);
 
-                                                $remainingChars = strlen($row['id_number']) - 8;
-                                                $replacement = str_repeat('*', $remainingChars);
-                                                echo $firstString . $replacement.$lastString;                                                         
-                                            ?>" disabled readonly>
+                                                                                                        $remainingChars = strlen($row['id_number']) - 8;
+                                                                                                        $replacement = str_repeat('*', $remainingChars);
+                                                                                                        echo $firstString . $replacement . $lastString;
+                                                                                                        ?>" disabled readonly>
                                     </div>
 
                                     <div class="col-md-6">
@@ -228,24 +239,95 @@ $row = mysqli_fetch_assoc($select);
                 </div>
             </div>
             <div class="tab-pane fade" id="orderUser" role="tabpanel" aria-labelledby="orderUser-tab">
-                <p>Chưa có đơn hàng nào</p>
-                
+                <div class="col-sm-12">
+
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Chi tiết đơn hàng</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" style="font-size: 30px;">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="center" style="min-width: 40px;">#</th>
+                                                    <th style="min-width: 225px;">Tên món</th>
+                                                    <th class="center" style="min-width: 108px;">Số lượng</th>
+                                                    <th class="right" style="min-width: 132px;">Giá</th>
+                                                    <th class="right" style="min-width: 143px;">Tổng tiền</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="receipt_detail">
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <div class="d-flex justify-content-end" style="color: black; font-size: 18px">
+                                    <div><b>Tổng tiền:</b><span class="mx-2 modal_total"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="debtUser" role="tabpanel" aria-labelledby="debtUser-tab">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped m-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tổng tiền trong tháng</th>
+                                    <th scope="col">Tháng/Năm</th>
+                                </tr>
+                            </thead>
+                            <tbody class="pay_body">
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-end border-top py-3" id="checkout-payment">
+                        <div class="d-flex align-items-center"><span class="px-3">Thanh toán: </span> <span class="total_debt">0 VNĐ</span></div>
+                        <button class="btn btn-primary mx-5 btn_checkout">
+                            Thanh toán
+                        </button>
+                    </div>
+
+
+                </div>
+
             </div>
         </div>
-        <!-- <hr class="mt-0 mb-4"> -->
+        <!-- debtUser -->
 
     </div>
     <footer class="ftco-footer ftco-no-pb ftco-section">
-        <div class="container ftco-animate">
+        <div class="container ftco-animate fadeInUp ftco-animated">
             <div class="row mb-5">
                 <div class="col-md-6 col-lg-3">
                     <div class="ftco-footer-widget mb-4">
                         <h2 class="ftco-heading-2">Taste.it</h2>
                         <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove</p>
                         <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
-                            <li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
+                            <li class="ftco-animate fadeInUp ftco-animated"><a href="#"><span class="fa fa-twitter"></span></a></li>
+                            <li class="ftco-animate fadeInUp ftco-animated"><a href="#"><span class="fa fa-facebook"></span></a></li>
+                            <li class="ftco-animate fadeInUp ftco-animated"><a href="#"><span class="fa fa-instagram"></span></a></li>
                         </ul>
                     </div>
                 </div>

@@ -29,8 +29,8 @@ $(document).ready(function () {
     localStorage.getItem("date") !== null ? $("#date").val(localStorage.getItem("date")) : $("#date").val(valueMinDate)
 
 
-    let date =  $("#date").val()
-    
+    let date = $("#date").val()
+
 
     let idUser = $("#getId").val()
     // console.log(date)
@@ -214,7 +214,7 @@ $(document).ready(function () {
                     // console.log(valueInput)
 
                     await getQuantity(valueInput, menuId, receiptId).then((data) => {
-                        // console.log(data)
+                        console.log(data)
                         if (!(data.message)) {
                             $(inputElement).val(data.quantity)
                             $(`.price_st${data.menu_id} .price_menu`).html(`${Number(data.price).toLocaleString("en-US")}đ`)
@@ -297,9 +297,9 @@ $(document).ready(function () {
 
 
 
+    localStorage.removeItem("date")
 
     $("#date").blur(() => {
-        localStorage.removeItem("date")
         $(".table-cart tbody").empty()
         $(".check-out .subtotal .total p").empty()
         let currentMin = $("#date").attr("min")
