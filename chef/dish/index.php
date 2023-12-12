@@ -1,18 +1,15 @@
 <?php
 session_start();
 include '../../connect/connect.php';
-
-if (!isset($_SESSION['employee_manager_id'])) {
+if (!isset($_SESSION['employee_chef_id'])) {
     header("location: /kitchen/login/");
 }
-$id = $_SESSION['employee_manager_id'];
+$id = $_SESSION['employee_chef_id'];
 
 // echo $id;
 $select_user = mysqli_query($con, "SELECT *,CONCAT(`first_name`,' ',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
 $row_user = mysqli_fetch_assoc($select_user);
-
-
-$sql = "SELECT dishes.dish_id, dishes.name, dishes.price, categories.name AS category_name FROM dishes JOIN categories ON dishes.category_id = categories.id WHERE remove = 0";
+$sql = "SELECT dishes.dish_id, dishes.name, dishes.price, categories.name AS category_name FROM dishes JOIN categories ON dishes.category_id = categories.id WHERE remove = 0 and is_approved = 1";
 
 if (isset($_GET['categories'])) {
     $sql .= " WHERE categories.name IN ('" . implode("', '", explode("--", $_GET['categories'])) . "')";
@@ -42,7 +39,7 @@ $dishes = mysqli_query($con, $sql);
 <body>
 <div class="container-fluid">
     <div class="row py-4">
-        <?php include "../layouts/sidebar.php" ?>
+        <?php include "../layouts/sidebar_kitchen.php" ?>
 
         <div class="col-12 col-md-10">
             <!-- Start: Page header -->
@@ -157,21 +154,7 @@ $dishes = mysqli_query($con, $sql);
                                                 <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                                             </svg>
                                         </button>
-                                        <form id="deleteForm-<?= $dish['dish_id'] ?>" method="post"
-                                              action="/kitchen/api/dish/deleteDish.php">
-                                            <input type="text" hidden name="id" aria-label="id delete"
-                                                   value="<?= $dish['dish_id']; ?>">
-                                            <button type="button" class="btn btn-link text-danger" aria-label="delete button"
-                                                    onclick="confirmDelete(<?= $dish['dish_id'] ?>, '<?= $dish['name'] ?>')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                    <path
-                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
-                                                    <path
-                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
-                                                </svg>
-                                            </button>
-                                        </form>
+                                       
                                     </div>
                                 </td>
                             </tr>
@@ -337,7 +320,7 @@ $dishes = mysqli_query($con, $sql);
     }
 
     function viewDetail(dish_id) {
-        window.location.href = "/kitchen/admin/dish/detail/?id=" + dish_id;
+        window.location.href = "/kitchen/chef/dish/detail/?id=" + dish_id;
     }
 
     <?php

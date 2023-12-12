@@ -185,7 +185,7 @@ $row = mysqli_fetch_assoc($select);
 			</div>
 
 			<div class="tab-content pill-tabContent">
-				<div class="tab-pane fade show active" id="tab-menu">
+				<div class="tab-pane fade show active" id="tab-menu" style="height: 60px;">
 					<div class="col-md-12 col-lg-6 col-xl-6">
 						<div class="menu-wrap">
 
@@ -281,7 +281,7 @@ $row = mysqli_fetch_assoc($select);
 						?>
 
 							<li class="nav-item" role="presentation">
-								<button type="button" id="tab<?php echo $row['id'] ?>-menu" class="btn-cate nav-link" data-bs-toggle="tab" data-bs-target="#tab-<?php echo $row['id'] ?>" aria-controls="tab-<?php echo $row['id'] ?>" aria-selected="true" name="<?php echo $row['name'] ?>" value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?>
+								<button type="button" id="tab<?php echo $row['id'] ?>-menu" class="btn-cate nav-link"  data-bs-toggle="tab" data-bs-target="#tab-<?php echo $row['id'] ?>" aria-controls="tab-<?php echo $row['id'] ?>" aria-selected="true" name="<?php echo $row['name'] ?>" value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?>
 
 								</button>
 							</li>
@@ -303,7 +303,7 @@ $row = mysqli_fetch_assoc($select);
 				$select_cate = mysqli_query($con, "SELECT * FROM `categories`");
 				while ($row_cate = mysqli_fetch_assoc($select_cate)) {
 				?>
-					<div class="tab-pane tab-food fade" id="tab-<?php echo $row_cate['id'] ?>">
+					<div class="tab-pane tab-food fade" style="height: 60px;" id="tab-<?php echo $row_cate['id'] ?>">
 						<div class="col-md-12 col-lg-6 col-xl-6">
 							<div class="menu-wrap"></div>
 						</div>
@@ -322,69 +322,58 @@ $row = mysqli_fetch_assoc($select);
 	<!-- END Main -->
 
 	<footer class="ftco-footer ftco-no-pb ftco-section">
-		<div class="container ftco-animate">
-			<div class="row mb-5">
-				<div class="col-md-6 col-lg-3">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Taste.it</h2>
-						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove</p>
-						<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
-							<li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-3">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Open Hours</h2>
-						<ul class="list-unstyled open-hours">
-							<li class="d-flex"><span>Monday</span><span>9:00 - 24:00</span></li>
-							<li class="d-flex"><span>Tuesday</span><span>9:00 - 24:00</span></li>
-							<li class="d-flex"><span>Wednesday</span><span>9:00 - 24:00</span></li>
-							<li class="d-flex"><span>Thursday</span><span>9:00 - 24:00</span></li>
-							<li class="d-flex"><span>Friday</span><span>9:00 - 02:00</span></li>
-							<li class="d-flex"><span>Saturday</span><span>9:00 - 02:00</span></li>
-							<li class="d-flex"><span>Sunday</span><span> Closed</span></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-3">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Instagram</h2>
-						<div class="thumb d-sm-flex">
-							<a href="#" class="thumb-menu img" style="background-image: url(images/insta-1.jpg);">
-							</a>
-							<a href="#" class="thumb-menu img" style="background-image: url(images/insta-2.jpg);">
-							</a>
-							<a href="#" class="thumb-menu img" style="background-image: url(images/insta-3.jpg);">
-							</a>
-						</div>
-						<div class="thumb d-flex">
-							<a href="#" class="thumb-menu img" style="background-image: url(images/insta-4.jpg);">
-							</a>
-							<a href="#" class="thumb-menu img" style="background-image: url(images/insta-5.jpg);">
-							</a>
-							<a href="#" class="thumb-menu img" style="background-image: url(images/insta-6.jpg);">
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-3">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Newsletter</h2>
-						<p>Far far away, behind the word mountains, far from the countries.</p>
-						<form action="#" class="subscribe-form">
-							<div class="form-group">
-								<input type="text" class="form-control mb-2 text-center" placeholder="Enter email address">
-								<input type="submit" value="Subscribe" class="form-control submit px-3">
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
+        <div class="container ftco-animate">
+            <div class="row mb-5">
+                <div class="col-md-6 col-lg-5">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Dream</h2>
+                        <p>Hệ thống đặt món của chúng tôi cam kết mang đến cho khách hàng những trải nghiệm ẩm thực tuyệt vời nhất với những tiêu chuẩn cao về chất lượng, vệ sinh, và giá cả hợp lý. Giá cả là một phần quan trọng, chúng tôi hiểu rằng nhân viên muốn tận hưởng những bữa ăn ngon miệng mà vẫn đảm bảo túi tiền.</p>
+                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-1">
+                            <li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
+                            <li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
+                            <li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Giờ hoạt động</h2>
+                        <ul class="list-unstyled open-hours">
+                            <li class="d-flex"><span>Thứ Hai</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Ba</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Tư</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Năm</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Sáu</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Bảy</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Chủ Nhật</span><span> Đóng cửa</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Instagram</h2>
+                        <div class="thumb d-sm-flex">
+                            <a href="#" class="thumb-menu img" style="background-image: url(images/insta-1.jpg);">
+                            </a>
+                            <a href="#" class="thumb-menu img" style="background-image: url(images/insta-2.jpg);">
+                            </a>
+                            <a href="#" class="thumb-menu img" style="background-image: url(images/insta-3.jpg);">
+                            </a>
+                        </div>
+                        <div class="thumb d-flex">
+                            <a href="#" class="thumb-menu img" style="background-image: url(images/insta-4.jpg);">
+                            </a>
+                            <a href="#" class="thumb-menu img" style="background-image: url(images/insta-5.jpg);">
+                            </a>
+                            <a href="#" class="thumb-menu img" style="background-image: url(images/insta-6.jpg);">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </footer>
 
 
 	<!-- loader -->

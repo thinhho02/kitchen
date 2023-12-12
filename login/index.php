@@ -41,6 +41,7 @@ if (isset($_SESSION['employee_id'])) {
     <link href="https://fonts.googleapis.com/css2?family=Arimo&family=Public+Sans&family=Work+Sans&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- <link rel="stylesheet" href="../css/header.css"> -->
     <link rel="stylesheet" href="../css/style1.css">
@@ -57,24 +58,27 @@ if (isset($_SESSION['employee_id'])) {
         <form action="" method="post" autocomplete="off" id="form">
             <h2>Đăng Nhập</h2>
             <div class="inputBox">
-                <input type="text" name="email" id="email" required="required">
+                <input type="text" class="input-field" name="email" id="email" required="required">
                 <span>Tên đăng nhập</span>
-                <i></i>
+                <i class="valid"></i>
             </div>
             <div class="inputBox">
-                <input type="password" name="password" id="password" required="required">
+                <input type="password" class="input-field" name="password" id="password" required="required">
                 <span>Mật khẩu</span>
                 <ion-icon class="see_pass_word" id="see_password" name="eye-off-outline"></ion-icon>
-                <i></i>
+                <i class="valid"></i>
             </div>
             <div class="links">
                 <!-- <p class="wrong">sai</p> -->
                 <a href="./forgetpass.php">Quên mật khẩu?</a>
             </div>
             <button type="submit" class="submit_form" name="submit" id="submit" value="Đăng nhập" style="margin-top: 30px;">
-                <span>
+                <span id="text-btn">
                     Đăng nhập
                 </span>
+                <div class="spinner-border spinner-border-sm" id="spinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </button>
         </form>
         <div class="right">

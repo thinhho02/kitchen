@@ -1,17 +1,16 @@
 $(document).ready(function () {
 
-    $("#email").on("input", () => {
-        $("#email ~ i").css({
+    $(".input-field").on("input", function () {
+        // $("#email ~ i").css({
+        //     "background-color": "white"
+
+        // })
+        $(this).siblings(".valid").css({
             "background-color": "white"
 
         })
     })
-    $("#password").on("input", () => {
-        $("#password ~ i").css({
-            "background-color": "white"
 
-        })
-    })
 
 
 
@@ -31,10 +30,10 @@ $(document).ready(function () {
                         location.href = "../";
                         console.log(data.userId)
                     } else if (data.success === 'ok' && data.role === 'chef') {
-                        // location.href = "../test_chef.php";
+                        location.href = "../chef/";
                         console.log(data.userId)
                     } else if (data.success === 'ok' && data.role === 'deliver') {
-                        // location.href = "../";
+                        location.href = "../deliver/";
                         console.log(data.userId)
                     } else if (data.success === 'ok' && data.role === 'manager') {
                         location.href = "../admin/";
@@ -47,6 +46,11 @@ $(document).ready(function () {
                     }
 
                 }
+            }, complete: function (data) {
+                $("#text-btn").removeClass("hidden")
+                $("#spinner").css({
+                    "opacity": "0"
+                })
             }
         })
     }
@@ -66,12 +70,44 @@ $(document).ready(function () {
         return response
     }
 
+    // PAGE CHECK 
+
+    const getCheckOtp = async () => {
+        const response = await $.ajax({
+            url: `../api/login/fetch_check.php?submit_check=${$("#submitCheck").val()}`,
+            method: "POST",
+            data: {
+                check_otp: $("#check_otp").val()
+            },
+            dataType: "JSON"
+        })
+        return response
+    }
+
+    // Page Change
+    const getPassword = async () => {
+        const response = await $.ajax({
+            url: `../api/login/fetch_password.php?submit_change=${$("#submitChange").val()}`,
+            method: "POST",
+            data: {
+                passnew: $("#password").val(),
+                check_passnew: $("#confirm-password").val()
+            },
+            dataType: "JSON"
+        })
+        return response
+    }
 
     // SUBMIT LOGIN
     $("#submit").click((e) => {
+        $("#text-btn").addClass("hidden")
+        $("#spinner").css({
+            "opacity": "1",
+
+        })
         if ($("#email").val() == '' && $("#password").val() == '') {
 
-            $("i").css({
+            $(".valid").css({
                 "background-color": "red",
 
             })
@@ -79,29 +115,39 @@ $(document).ready(function () {
 
             // animate()
         } else if ($("#email").val() == '') {
-            $("#email ~ i").css({
+            $("#email ~ .valid").css({
                 "background-color": "red",
 
             })
         }
         else if ($("#password").val() == '') {
-            $("#password ~ i").css({
+            $("#password ~ .valid").css({
                 "background-color": "red",
 
             })
         }
-
-
         getFormLogin()
-
         e.preventDefault();
     })
+
+    // SUBMIT FORGET
     $("#submit_forget").click(async (e) => {
+        e.preventDefault();
         $("#text-btn").addClass("hidden")
         $("#spinner").css({
             "opacity": "1",
 
         })
+        if ($("#check").val() == '') {
+
+            $("#check ~ .valid").css({
+                "background-color": "red",
+
+            })
+
+
+            // animate()
+        }
         await getFormForget()
             .then((data) => {
                 // console.log(data)
@@ -111,7 +157,10 @@ $(document).ready(function () {
 
                 } else {
                     if (data.message) {
-                        alert(data.message)
+                        $(".box form .links").append(`<small class="wrong">${data.message}</small>`)
+                        if ($(".box form .links .wrong").length == 2) {
+                            $(".box form .links .wrong:first").remove()
+                        }
 
                     } else {
 
@@ -133,6 +182,88 @@ $(document).ready(function () {
             })
 
 
+    })
+
+    // SUBMIT CHECK
+    $("#submitCheck").on("click", async function (e) {
+        e.preventDefault();
+        $("#text-btn").addClass("hidden")
+        $("#spinner").css({
+            "opacity": "1",
+
+        })
+        if ($("#check_otp").val() == '') {
+            $("#check_otp ~ .valid").css({
+                "background-color": "red",
+
+            })
+        }
+        await getCheckOtp()
+            .then((data) => {
+                if (data.message) {
+                    $(".box form .links").append(`<small class="wrong">${data.message}</small>`)
+                    if ($(".box form .links .wrong").length == 2) {
+                        $(".box form .links .wrong:first").remove()
+                    }
+
+                } else {
+                    alert(data.success)
+                    location.href = "../login/changepass.php";
+                }
+
+            }).finally(() => {
+                $("#text-btn").removeClass("hidden")
+                $("#spinner").css({
+                    "opacity": "0"
+                })
+            })
+    })
+
+    // SUBMIT CHANGE
+
+    $("#submitChange").on("click", async function (e) {
+        e.preventDefault();
+        $("#text-btn").addClass("hidden")
+        $("#spinner").css({
+            "opacity": "1",
+
+        })
+        if ($("#confirm-password").val() == '' && $("#password").val() == '') {
+
+            $(".valid").css({
+                "background-color": "red",
+
+            })
+        } else if ($("#confirm-password").val() == '') {
+            $("#confirm-password ~ .valid").css({
+                "background-color": "red"
+            })
+        }
+        else if ($("#password").val() == '') {
+            $("#password ~ .valid").css({
+                "background-color": "red"
+            })
+        }
+        await getPassword()
+            .then((data) => {
+                if (!(data.error)) {
+                    if (data.message) {
+                        $(".box form .links").append(`<small class="wrong" style="top: -10px;">${data.message}</small>`)
+                        if ($(".box form .links .wrong").length == 2) {
+                            $(".box form .links .wrong:first").remove()
+                        }
+
+                    } else {
+                        alert(data.success)
+                        location.href = "../login/";
+                    }
+                }
+            }).finally(() => {
+                $("#text-btn").removeClass("hidden")
+                $("#spinner").css({
+                    "opacity": "0"
+                })
+            })
     })
 })
 const seePass = document.getElementById("see_password");

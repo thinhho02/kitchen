@@ -16,6 +16,8 @@ if (isset($_POST['user_id']) && $_POST['user_id'] !== '') {
             $row_pay['receipts'] = $data_receipt;
             array_push($data, $row_pay);
         }
+    }else{
+        $data = ["message" => "Chưa có đơn hàng"];
     }
 }
 // delete order

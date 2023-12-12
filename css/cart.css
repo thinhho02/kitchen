@@ -133,6 +133,7 @@ table tbody .detail span{
    .cart-footer .check-out{
     margin: 40px 0;
    }
+   
    .cart-footer .subtotal .total{
     display: flex;
     align-items: end;
@@ -173,7 +174,21 @@ table tbody .detail span{
     color: white;
     background-color: rgba(192,10,39,1);
     max-width: 320px;
+    position: relative;
    }
+   .hidden{
+        opacity: 0;
+    }
+   #checkout #spinner{
+    position: absolute;
+    top: 35%;
+    right: 47%;
+    opacity: 0;
+    color: black;
+    }
+    #checkout:hover > #spinner{
+    color: white;
+    }
    #mainCart .back-to-menu .btn-back:hover,
    .cart-footer .check-out .btn-check-out #checkout:hover{
     background-color: #ffb302;

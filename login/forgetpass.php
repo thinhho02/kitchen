@@ -5,8 +5,17 @@ session_start();
 
 include_once '../connect/connect.php';
 
-if (isset($_SESSION['user_id'])) {
-    header("location:../product.php");
+if (isset($_SESSION['employee_id'])) {
+    header("location:../");
+    exit();
+} elseif (isset($_SESSION['employee_manager_id'])) {
+    header("location:../admin");
+    exit();
+} elseif (isset($_SESSION['employee_deliver_id'])) {
+    header("location:");
+    exit();
+} elseif (isset($_SESSION['employee_chef_id'])) {
+    header("location:");
     exit();
 }
 
@@ -43,15 +52,15 @@ if (isset($_SESSION['user_id'])) {
         <form action="" method="post" autocomplete="off" class="form1">
             <h2>Quên mật khẩu</h2>
             <div class="inputBox">
-                <input type="text" name="check" id="check" required="required">
+                <input type="text" class="input-field" name="check" id="check" required="required">
                 <span>Nhập Email</span>
-                <i></i>
+                <i class="valid"></i>
             </div>
             <div class="links" style="align-items: center;">
                 <a style="font-size:13px;" href="../login">Quay lại trang đăng nhập</a>
             </div>
 
-            <button type="button" name="submit" class="submit_form" id="submit_forget" value="Gửi mã xác thực" style="margin-top: 15px; width: 100%;">
+            <button type="submit" name="submit" class="submit_form" id="submit_forget" value="Gửi mã xác thực" style="margin-top: 15px; width: 100%;">
                 <span id="text-btn">
                     Gửi mã xác thực
                 </span>
@@ -63,22 +72,6 @@ if (isset($_SESSION['user_id'])) {
 
         </form>
     </div>
-
-    <!-- <script>
-        const userHeader = document.getElementById("user_header");
-        const loginLogout = document.querySelector(".login_logout");
-
-
-        userHeader.addEventListener("click", function() {
-            userHeader.classList.toggle("active");
-            if (userHeader.classList.contains("active")) {
-                loginLogout.style.display = "block";
-            } else {
-                loginLogout.style.display = "none";
-            }
-
-        });
-    </script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="../js/login.js"></script>
 </body>

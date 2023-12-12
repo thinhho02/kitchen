@@ -80,39 +80,39 @@ $row = mysqli_fetch_assoc($select);
                     <img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
                 </button>
                 <div class="row flex-column profile-logout fade collapse" id="profile">
-					<div class="name_user" style="padding: 8px 0;">
-						<div class="d-flex align-items-center" style="gap: 30px; padding: 0 8px; color: white">
-							<img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
-							<span class="name" style="font-size: 23px;"><?php echo $row['full_name']; ?></span>
-						</div>
-					</div>
-					<a href="profile.php" class="link-profile">
-						<div class="nav align-items-center profile-info" style="color: white">
-							<div class="icon-profile">
-								<div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
-									<ion-icon name="person-circle-outline" role="img" class="md hydrated"></ion-icon>
-								</div>
-							</div>
-							<div class="infor-profile">
-								<span class="p-0">Thông tin</span>
-								<ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
-							</div>
-						</div>
-					</a>
-					<a href="login/logout.php?id=<?php echo $_SESSION['employee_id'] ?>" class="link-profile">
-						<div class="nav align-items-center profile-info" style="color: white">
-							<div class="icon-profile">
-								<div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
-									<ion-icon name="log-out-outline"></ion-icon>
-								</div>
-							</div>
-							<div class="infor-profile">
-								<span class="p-0">Đăng xuất</span>
-								<ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
-							</div>
-						</div>
-					</a>
-				</div>
+                    <div class="name_user" style="padding: 8px 0;">
+                        <div class="d-flex align-items-center" style="gap: 30px; padding: 0 8px; color: white">
+                            <img src="image/<?php echo $row['avatar'] ?>" class="rounded-circle" style="width: 36px; height: 36px;" alt="avatar">
+                            <span class="name" style="font-size: 23px;"><?php echo $row['full_name']; ?></span>
+                        </div>
+                    </div>
+                    <a href="profile.php" class="link-profile">
+                        <div class="nav align-items-center profile-info" style="color: white">
+                            <div class="icon-profile">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
+                                    <ion-icon name="person-circle-outline" role="img" class="md hydrated"></ion-icon>
+                                </div>
+                            </div>
+                            <div class="infor-profile">
+                                <span class="p-0">Thông tin</span>
+                                <ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="login/logout.php?id=<?php echo $_SESSION['employee_id'] ?>" class="link-profile">
+                        <div class="nav align-items-center profile-info" style="color: white">
+                            <div class="icon-profile">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
+                                    <ion-icon name="log-out-outline"></ion-icon>
+                                </div>
+                            </div>
+                            <div class="infor-profile">
+                                <span class="p-0">Đăng xuất</span>
+                                <ion-icon class="icon-active" name="chevron-forward-outline" role="img" class="p-0 md hydrated" style="font-size: 25px;"></ion-icon>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
 
         </div>
@@ -146,8 +146,8 @@ $row = mysqli_fetch_assoc($select);
                             <th class="right" colspan="1" scope="col" style="padding: 0 0 20px 10px;">Tổng tiền</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        
+                    <tbody style="height: 62px;">
+
                     </tbody>
                 </table>
             </form>
@@ -172,41 +172,46 @@ $row = mysqli_fetch_assoc($select);
                     <small style="color: red; font-weight: bold">Vui lòng kiểm tra trước khi đặt hàng</small>
                 </div>
                 <div class="btn-check-out">
-                    <button class="btn" type="button" id="checkout" name="checkout">Đặt hàng</button>
+                    <button class="btn" type="button" id="checkout" name="checkout">
+                        <span id="text-btn">Đặt hàng</span>
+                        <div class="spinner-border spinner-border-sm" id="spinner" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>
     </main>
 
     <footer class="ftco-footer ftco-no-pb ftco-section">
-        <div class="container ftco-animate">
+        <div class="container ftco-animate fadeInUp ftco-animated">
             <div class="row mb-5">
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-5">
                     <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Taste.it</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove</p>
-                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
-                            <li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
+                        <h2 class="ftco-heading-2">Dream</h2>
+                        <p>Hệ thống đặt món của chúng tôi cam kết mang đến cho khách hàng những trải nghiệm ẩm thực tuyệt vời nhất với những tiêu chuẩn cao về chất lượng, vệ sinh, và giá cả hợp lý. Giá cả là một phần quan trọng, chúng tôi hiểu rằng nhân viên muốn tận hưởng những bữa ăn ngon miệng mà vẫn đảm bảo túi tiền.</p>
+                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-1">
+                            <li class="ftco-animate fadeInUp ftco-animated"><a href="#"><span class="fa fa-twitter"></span></a></li>
+                            <li class="ftco-animate fadeInUp ftco-animated"><a href="#"><span class="fa fa-facebook"></span></a></li>
+                            <li class="ftco-animate fadeInUp ftco-animated"><a href="#"><span class="fa fa-instagram"></span></a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Open Hours</h2>
+                        <h2 class="ftco-heading-2">Giờ hoạt động</h2>
                         <ul class="list-unstyled open-hours">
-                            <li class="d-flex"><span>Monday</span><span>9:00 - 24:00</span></li>
-                            <li class="d-flex"><span>Tuesday</span><span>9:00 - 24:00</span></li>
-                            <li class="d-flex"><span>Wednesday</span><span>9:00 - 24:00</span></li>
-                            <li class="d-flex"><span>Thursday</span><span>9:00 - 24:00</span></li>
-                            <li class="d-flex"><span>Friday</span><span>9:00 - 02:00</span></li>
-                            <li class="d-flex"><span>Saturday</span><span>9:00 - 02:00</span></li>
-                            <li class="d-flex"><span>Sunday</span><span> Closed</span></li>
+                            <li class="d-flex"><span>Thứ Hai</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Ba</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Tư</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Năm</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Sáu</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Thứ Bảy</span><span>24/24</span></li>
+                            <li class="d-flex"><span>Chủ Nhật</span><span> Đóng cửa</span></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <div class="ftco-footer-widget mb-4">
                         <h2 class="ftco-heading-2">Instagram</h2>
                         <div class="thumb d-sm-flex">
@@ -227,18 +232,7 @@ $row = mysqli_fetch_assoc($select);
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Newsletter</h2>
-                        <p>Far far away, behind the word mountains, far from the countries.</p>
-                        <form action="#" class="subscribe-form">
-                            <div class="form-group">
-                                <input type="text" class="form-control mb-2 text-center" placeholder="Enter email address">
-                                <input type="submit" value="Subscribe" class="form-control submit px-3">
-                            </div>
-                        </form>
-                    </div>
-                </div>
+
             </div>
         </div>
     </footer>

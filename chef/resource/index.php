@@ -2,16 +2,14 @@
 session_start();
 include '../../connect/connect.php';
 
-if (!isset($_SESSION['employee_manager_id'])) {
+if (!isset($_SESSION['employee_chef_id'])) {
     header("location: /kitchen/login/");
 }
-$id = $_SESSION['employee_manager_id'];
+$id = $_SESSION['employee_chef_id'];
 
 // echo $id;
 $select_user = mysqli_query($con, "SELECT *,CONCAT(`first_name`,' ',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
 $row_user = mysqli_fetch_assoc($select_user);
-
-
 
 $sql = "SELECT * FROM resources";
 if (isset($_GET['units'])) {
@@ -43,7 +41,7 @@ $units = mysqli_query($con, "SELECT DISTINCT unit FROM resources");
 <body>
 <div class="container-fluid">
     <div class="row py-4">
-        <?php include "../layouts/sidebar.php" ?>
+        <?php include "../layouts/sidebar_kitchen.php" ?>
 
         <div class="col-12 col-md-10">
             <div class="row">

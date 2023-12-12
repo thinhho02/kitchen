@@ -111,71 +111,82 @@ const getOrderHistory = async () => {
         success: function (data) {
             console.log(data)
             $("#orderUser .col-sm-12").empty();
-
-            for (let i = 0; i < data.length; i++) {
-                let listOrder =
-                    `<div class="d-flex align-items-center justify-content-between btn-dropdown ${data[i].id} header" type="button">
-                        <h3 class="px-3 font-weight-bold color-black">${data[i].date}</h3>
-                        <ion-icon class="px-3" name="chevron-down"></ion-icon>
-                    </div>
-
-                    <div class="order_detail ${data[i].id}">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" style="min-width: 150px;">Mã HĐ</th>
-                                        <th scope="col" style="min-width: 140px;">Giá</th>
-                                        <th scope="col" style="min-width: 280px;">Ghi chú</th>
-                                        <th scope="col" style="min-width: 150px;">Ngày đặt</th>
-                                        <th scope="col" style="min-width: 130px;">Trạng thái</th>
-                                        <th scope="col" style="min-width: 120px;"></th>
-
-                                    </tr>
-                                </thead>
-                                <tbody class="menu_modal">
-                                    
-                                </tbody>
-                            </table>
+            if (!(data.message)) {
+                for (let i = 0; i < data.length; i++) {
+                    let listOrder =
+                        `<div class="d-flex align-items-center justify-content-between btn-dropdown ${data[i].id} header" type="button">
+                            <h4 class="px-3 font-weight-bold color-black m-0">${data[i].date}</h4>
+                            <ion-icon class="px-3" name="chevron-down"></ion-icon>
                         </div>
-                    </div>
+    
+                        <div class="order_detail ${data[i].id}">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="min-width: 150px;">Mã HĐ</th>
+                                            <th scope="col" style="min-width: 140px;">Tổng tiền</th>
+                                            <th scope="col" style="min-width: 280px;">Ghi chú</th>
+                                            <th scope="col" style="min-width: 150px;">Ngày đặt</th>
+                                            <th scope="col" style="min-width: 130px;">Trạng thái</th>
+                                            <th scope="col" style="min-width: 120px;"></th>
+    
+                                        </tr>
+                                    </thead>
+                                    <tbody class="menu_modal">
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+    
+                        <div class="d-flex align-items-center justify-content-end p-3 debt_month ${data[i].id}" style="font-size: 18px; color: black">
+                            <div class="mx-3"><span class="font-weight-bold">Tổng tiền: </span><span class="number_debt">${Number(data[i].total).toLocaleString("en-US")} VNĐ</span></div>
+                            <span class="d-flex align-items-center status-payment"></span>
+                        </div>`
+                    $("#orderUser .col-sm-12").append(listOrder);
+                    let status = data[i].status == 0 ? `<ion-icon class="mx-2" name="close-circle-outline" style="color: red"></ion-icon> Chưa thanh toán` : `<ion-icon class="mx-2" name="checkmark-circle" style="color: green"></ion-icon> Đã thanh toán`
+                    $(`.debt_month.${data[i].id} .status-payment`).append(status)
 
-                    <div class="d-flex align-items-center justify-content-end p-3 debt_month ${data[i].id}" style="font-size: 20px; color: black">
-                        <div class="mx-3"><span class="font-weight-bold">Tổng tiền: </span><span class="number_debt">${Number(data[i].total).toLocaleString("en-US")} VNĐ</span></div>
-                        <span class="d-flex align-items-center status-payment"></span>
-                    </div>`
-                $("#orderUser .col-sm-12").append(listOrder);
-                let status = data[i].status == 0 ? `<ion-icon class="mx-2" name="close-circle-outline" style="color: red"></ion-icon> Chưa thanh toán` : `<ion-icon class="mx-2" name="checkmark-circle" style="color: green"></ion-icon> Đã thanh toán`
-                $(`.debt_month.${data[i].id} .status-payment`).append(status)
-
-                for (let j = 0; j < data[i].receipts.length; j++) {
-                    let listReceipt =
-                        `<tr class="receipt${data[i].receipts[j].receipt_id}">
-                            <th scope="row">${data[i].receipts[j].receipt_id}</th>
-                            <td>${Number(data[i].receipts[j].price).toLocaleString("en-US")} VNĐ</td>
-                            <td>${data[i].receipts[j].note}</td>
-                            <td>${data[i].receipts[j].created_time}</td>
-                            <td class="status-receipt"></td>
-                            <td style="vertical-align: middle;">
-                                <span class="d-flex justify-content-around action">
-                                    <button type="button" class="btn action_btn btn_modal" data-toggle="modal" data-target="#modelId" value="${data[i].receipts[j].receipt_id}"><ion-icon name="eye-outline"></ion-icon></button>
-                                </span>
-                            </td>
-
-                        </tr>`
-                    $(`.order_detail.${data[i].id} .menu_modal`).append(listReceipt);
-                    if (data[i].receipts[j].status === 'confirming') {
-                        $(`.receipt${data[i].receipts[j].receipt_id} .status-receipt`).html("Chờ xác nhận")
-                        $(`.receipt${data[i].receipts[j].receipt_id} .action`).append(`<button type="button" class="btn action_btn delete" value="${data[i].receipts[j].receipt_id}"><ion-icon name="trash"></ion-icon></button>`)
-                    }
-                    else if (data[i].receipts[j].status === 'confirmed') {
-                        $(`.receipt${data[i].receipts[j].receipt_id} .status-receipt`).html("Đã xác nhận")
-                    }
-                    else if (data[i].receipts[j].status === 'success') {
-                        $(`.receipt${data[i].receipts[j].receipt_id} .status-receipt`).html("Đã giao")
+                    for (let j = 0; j < data[i].receipts.length; j++) {
+                        let listReceipt =
+                            `<tr class="receipt${data[i].receipts[j].receipt_id}">
+                                <th scope="row">${data[i].receipts[j].receipt_id}</th>
+                                <td>${Number(data[i].receipts[j].price).toLocaleString("en-US")} VNĐ</td>
+                                <td>${data[i].receipts[j].note}</td>
+                                <td>${data[i].receipts[j].created_time}</td>
+                                <td class="status-receipt"></td>
+                                <td style="vertical-align: middle;">
+                                    <span class="d-flex justify-content-around action">
+                                        <button type="button" class="btn action_btn btn_modal" data-toggle="modal" data-target="#modelId" value="${data[i].receipts[j].receipt_id}"><ion-icon name="eye-outline"></ion-icon></button>
+                                    </span>
+                                </td>
+    
+                            </tr>`
+                        $(`.order_detail.${data[i].id} .menu_modal`).append(listReceipt);
+                        if (data[i].receipts[j].status === 'confirming') {
+                            $(`.receipt${data[i].receipts[j].receipt_id} .status-receipt`).html("Chờ xác nhận")
+                            $(`.receipt${data[i].receipts[j].receipt_id} .action`).append(`<button type="button" class="btn action_btn delete" value="${data[i].receipts[j].receipt_id}"><ion-icon name="trash"></ion-icon></button>`)
+                        }
+                        else if (data[i].receipts[j].status === 'confirmed') {
+                            $(`.receipt${data[i].receipts[j].receipt_id} .status-receipt`).html("Đã xác nhận")
+                        }
+                        else if (data[i].receipts[j].status === 'shipping') {
+                            $(`.receipt${data[i].receipts[j].receipt_id} .status-receipt`).html("Đang giao")
+                        }
+                        else if (data[i].receipts[j].status === 'shipped') {
+                            $(`.receipt${data[i].receipts[j].receipt_id} .status-receipt`).html("Đã giao")
+                        }
+                        else if (data[i].receipts[j].status === 'success') {
+                            $(`.receipt${data[i].receipts[j].receipt_id} .status-receipt`).html("Đã giao")
+                        }
                     }
                 }
             }
+            else{
+                $("#orderUser .col-sm-12").append(`<p class="text-center font-weight-bold" style="color: black; font-size: 20px;">${data.message}</p>`)
+            }
+
         },
         complete: function (data) {
             // console.log(data.responseJSON[0].receipts)
@@ -276,7 +287,7 @@ const getPay = async () => {
         dataType: "JSON",
         data: {
             user_id: id,
-            current_date: '2024-1-1'
+            current_date: currentDate
         },
         success: function (data) {
             $(".pay_body").empty()

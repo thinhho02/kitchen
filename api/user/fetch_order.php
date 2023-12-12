@@ -24,7 +24,7 @@ if(isset($_COOKIE['receipt'])){
             while($row_receipt = mysqli_fetch_assoc($select_receipt_detail)){
                 $data_menu = [];
                 $menu_id = $row_receipt['menu_id'];
-                $select_menu = mysqli_query($con, "SELECT `menu_list`.`dish_id`,`dishes`.`name`,`dishes`.`name`,`dishes`.`category_id`
+                $select_menu = mysqli_query($con, "SELECT `menu_list`.`dish_id`,`dishes`.`name`,`dishes`.`category_id`
                                                     FROM `menu`
                                                     inner join `menu_list` on `menu`.`menu_id` = `menu_list`.`menu_id`
                                                     inner join `dishes` on `dishes`.`dish_id` = `menu_list`.`dish_id`
@@ -52,6 +52,7 @@ if(isset($_COOKIE['receipt'])){
         setcookie("receipt","", time() - 3600, "/");
         $data = ["message" => "không có hóa đơn trong ngày"];
     }
+    
     
 }
 echo json_encode($data);

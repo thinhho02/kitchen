@@ -32,6 +32,7 @@ $(document).ready(function () {
             },
             dataType: "JSON",
             success: function (data) {
+                console.log(data)
                 if (!(data.error)) {
                     if (!(data.nodata)) {
                         valueDishId = data[0].dish_id
@@ -67,11 +68,13 @@ $(document).ready(function () {
                 }
             },
             complete: function (data) {
-
+                let dateMenu = data.responseJSON[0].date
+                // console.log(dateMenu)
+                let valueInput = $(".input_quantity").val()
                 $("#button-addon2").off("click").on("click", function () {
                     let inputElement = $(".input_quantity");
 
-                    let valueInput = inputElement.val(parseInt(inputElement.val(), 10) + 1).val()
+                    valueInput = inputElement.val(parseInt(inputElement.val(), 10) + 1).val()
                     console.log(valueInput)
                 })
 
@@ -79,18 +82,42 @@ $(document).ready(function () {
 
                     let inputElement = $(".input_quantity");
 
-                    let valueInput = inputElement.val(Math.max(parseInt(inputElement.val(), 10) - 1, 1)).val()
+                    valueInput = inputElement.val(Math.max(parseInt(inputElement.val(), 10) - 1, 1)).val()
                     console.log(valueInput)
                 })
 
 
                 $(".input_quantity").off("change").on("change", function () {
 
-                    let valueInput = Math.max(parseInt($(this).val(), 10), 1)
+                    valueInput = Math.max(parseInt($(this).val(), 10), 1)
 
                     $(this).val(valueInput)
                     console.log(valueInput)
 
+                })
+
+                $("#btn_add").off("click").on("click", async function () {
+                    $.ajax({
+                        url: `api/user/fetch_add_cart.php`,
+                        method: "POST",
+                        data: {
+                            idMenu: menuId,
+                            idUser: userId,
+                            quantity: valueInput,
+                            day: dateMenu
+                        },
+                        dataType: "JSON",
+                        success: function (data) {
+                            if (!(data.error)) {
+                                alert(data.message)
+                                localStorage.setItem("date", dateMenu);
+
+                                location.href = 'cart.php'
+                            } else {
+                                alert(data.error)
+                            }
+                        }
+                    })
                 })
             }
         })
@@ -106,7 +133,7 @@ $(document).ready(function () {
             success: function (data) {
                 // console.log(data)
                 for (let i = 0; i < data.length; i++) {
-                    // let ratingStar = 0
+
                     let rating = `<div class="d-flex border-bottom my-3" style="align-items: flex-start">
                                     <div class="avt_user">
                                         <img src="image/${data[i].avatar}" class="rounded-circle" style="width: 50px; height: 50px; margin-right: 20px"  alt="">

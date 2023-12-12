@@ -42,12 +42,11 @@ if (isset($_POST['menu_id']) && $_POST['menu_id'] !== '') {
                                                             WHERE `review`.`dish_id` = $dish_id and `review`.`review` = $value");
                     $row_star = mysqli_fetch_assoc($select_star);
                     $value_star = ["star" => $value, "count" => $row_star['count']];
-                    array_push($data_rating,$value_star);
+                    array_push($data_rating, $value_star);
                     if ($row_star['review'] != null) {
                         $count += $row_star['count'] * $row_star['review'];
                         // echo "r = " . $count . "<br>";
                     }
-                    
                 }
                 // echo "m = " . $count . "<br>";
                 $avg_stars = $count / $row_star_avg['avg'];
@@ -63,12 +62,10 @@ if (isset($_POST['menu_id']) && $_POST['menu_id'] !== '') {
             $row['total_count'] = $row_star_avg['avg'];
             array_push($data, $row);
         }
-
-       
     } else {
         $data = ["nodata" => "Không có món ăn trong ngày"];
     }
-} else {
+}  else {
     $data = ["error" => "Lỗi"];
 }
 echo json_encode($data, true);

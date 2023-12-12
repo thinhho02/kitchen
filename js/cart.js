@@ -60,7 +60,7 @@ $(document).ready(function () {
                 console.log(data)
                 if (!(data.message)) {
                     $(".cart-footer").attr("style", "display: block")
-
+                    $(".table-cart tbody").removeAttr("style")
 
                     for (let i = 1; i < data.length; i++) {
                         let cart =
@@ -119,7 +119,7 @@ $(document).ready(function () {
                     $(`.check-out .subtotal .total p`).append(`<span>${Number(data[0].subtotal).toLocaleString("en-US")}đ</span>`)
 
                 } else {
-
+                    $(".table-cart tbody").attr("style", "height: 62px;")
                     let message = `<tr class="fadeInUp ftco-animated"><td colspan="4" style="grid-column: 2/4;"><p style="text-align: center; font-size: 20px;color: #a93737;">${data.message}</p></td></tr>`
                     $(".table-cart tbody").append(message)
                     $(".cart-footer").attr("style", "display: none !important")
@@ -127,8 +127,12 @@ $(document).ready(function () {
             },
             complete: function (data) {
                 // console.log(data.responseJSON)
-
+                localStorage.removeItem("date")
                 $("#checkout").off("click").on("click", async function () {
+                    $("#text-btn").addClass("hidden")
+                    $("#spinner").css({
+                        "opacity": "1"
+                    })
                     if (!(data.responseJSON.message)) {
                         let dateObject = new Date(date);
 
@@ -162,6 +166,11 @@ $(document).ready(function () {
                                     alert(data.message)
                                     location.href = "order.php";
                                 }
+                            }, complete: function (data) {
+                                $("#text-btn").removeClass("hidden")
+                                $("#spinner").css({
+                                    "opacity": "0"
+                                })
                             }
                         })
                     }
@@ -297,7 +306,6 @@ $(document).ready(function () {
 
 
 
-    localStorage.removeItem("date")
 
     $("#date").blur(() => {
         $(".table-cart tbody").empty()

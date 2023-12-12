@@ -76,12 +76,11 @@ $(document).ready(function () {
                 console.log(data)
                 if (!(data.error)) {
                     if (!(data.nodata)) {
+                        $(`#tab-menu`).removeAttr("style")
                         $(`#tab-menu .col-md-12 .menu-wrap`).css({
                             "display": "block"
                         })
-                        if ($(`#tab-menu > p`)) {
-                            $(`#tab-menu > p`).remove()
-                        }
+
                         let combo = 0
                         for (let i = 0; i < data.length; i++) {
                             if (data[i].menu_id !== $(`#menus_id${data[i].menu_id}`).val()) {
@@ -139,16 +138,11 @@ $(document).ready(function () {
                             }
                         }
                     } else {
-                        // console.log(data)
                         $(`#tab-menu .col-md-12 .menu-wrap`).empty()
                         $(`#tab-menu .col-md-12 .menu-wrap`).css({
                             "display": "none"
                         })
-                        if ($(`#tab-menu p`).length < 1) {
-                            $(`#tab-menu`).append(`<p class="p fadeInUp ftco-animated" style="width: 100%; text-align: center;">${data.nodata}</p>`)
-                            // $(`#tab-${valueTab} p:last`).remove()
-                        }
-
+                        $(`#tab-menu`).append(`<p class="p fadeInUp ftco-animated" style="width: 100%; text-align: center;">${data.nodata}</p>`)
                     }
                 }
 
@@ -267,9 +261,10 @@ $(document).ready(function () {
                         $(`#tab-${valueTab} .col-md-12 .menu-wrap`).css({
                             "display": "block"
                         })
-                        if ($(`#tab-${valueTab} > p`)) {
-                            $(`#tab-${valueTab} > p`).remove()
-                        }
+                        $(`#tab-${valueTab}`).removeAttr("style")
+                        // if ($(`#tab-${valueTab} > p`)) {
+                        //     $(`#tab-${valueTab} > p`).remove()
+                        // }
                         // let menuWrap = `<div class="col-md-12 col-lg-6 col-xl-6">
                         //                             <div class="menu-wrap">
 
@@ -324,15 +319,9 @@ $(document).ready(function () {
                         }
                     }
                     else {
-                        // console.log(data)
-                        $(`#tab-${valueTab} .col-md-12 .menu-wrap`).empty()
-                        $(`#tab-${valueTab} .col-md-12 .menu-wrap`).css({
-                            "display": "none"
-                        })
-                        if ($(`#tab-${valueTab} p`).length < 1) {
-                            $(`#tab-${valueTab}`).append(`<p class="p fadeInUp ftco-animated" style="width: 100%; text-align: center;">${data.nodata}</p>`)
-                            // $(`#tab-${valueTab} p:last`).remove()
-                        }
+
+                        $(`#tab-${valueTab}`).append(`<p class="p fadeInUp ftco-animated" style="width: 100%; text-align: center;">${data.nodata}</p>`)
+
 
                     }
                 }
@@ -359,6 +348,12 @@ $(document).ready(function () {
     getFormFood(btnValue, date);
     getFormMenu(date_menu);
     $(".btn-cate").click(function () {
+        $(`.tab-food`).attr("style", "height: 60px")
+        $(`.tab-food p`).remove()
+        $(`.tab-food .col-md-12 .menu-wrap`).css({
+            "display": "none"
+        })
+        $(`.tab-food .col-md-12 .menu-wrap`).empty()
         btnValue = $(this).attr("value");
         // console.log(btnValue)
         getFormFood(btnValue, date)
@@ -366,7 +361,12 @@ $(document).ready(function () {
     })
 
     $("#date").blur(() => {
+        $(`.tab-food`).attr("style", "height: 60px")
+        $(`.tab-food .col-md-12 .menu-wrap`).css({
+            "display": "none"
+        })
         $(`.tab-food .col-md-12 .menu-wrap`).empty()
+        $(`.tab-food p`).remove()
         let currentMin = $("#date").attr("min")
         let currentMax = $("#date").attr("max")
 
@@ -391,7 +391,9 @@ $(document).ready(function () {
 
 
     $("#date_menu").blur(() => {
+        $(`#tab-menu`).attr("style", "height: 60px")
         $(`#tab-menu .col-md-12 .menu-wrap`).empty()
+        $(`#tab-menu > p`).remove()
         let currentMin = $("#date_menu").attr("min")
         let currentMax = $("#date_menu").attr("max")
 
