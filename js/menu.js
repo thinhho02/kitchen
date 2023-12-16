@@ -255,7 +255,7 @@ $(document).ready(function () {
             method: "POST",
             dataType: "JSON",
             success: (data) => {
-                // console.log(data)
+                console.log(data)
                 if (!(data.error)) {
                     if (!(data.nodata)) {
                         $(`#tab-${valueTab} .col-md-12 .menu-wrap`).css({
@@ -319,7 +319,9 @@ $(document).ready(function () {
                         }
                     }
                     else {
-
+                        $(`.tab-food .col-md-12 .menu-wrap`).css({
+                            "display": "none"
+                        })
                         $(`#tab-${valueTab}`).append(`<p class="p fadeInUp ftco-animated" style="width: 100%; text-align: center;">${data.nodata}</p>`)
 
 
@@ -362,9 +364,7 @@ $(document).ready(function () {
 
     $("#date").blur(() => {
         $(`.tab-food`).attr("style", "height: 60px")
-        $(`.tab-food .col-md-12 .menu-wrap`).css({
-            "display": "none"
-        })
+        
         $(`.tab-food .col-md-12 .menu-wrap`).empty()
         $(`.tab-food p`).remove()
         let currentMin = $("#date").attr("min")

@@ -321,6 +321,8 @@ $dishDetails = mysqli_query($con, "SELECT resources.name, resources.price, resou
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $(".nav-link").removeClass("active")
+            $("#dish-manage").addClass("active")
             $('#updateForm').submit(function(event) {
                 let id = $('#dish-id').val().trim();
                 let name = $('#dish-name').val().trim();

@@ -24,6 +24,7 @@ $row_user = mysqli_fetch_assoc($select_user);
 <style>
     body {
         color: black;
+        line-height: 1.5;
     }
 </style>
 

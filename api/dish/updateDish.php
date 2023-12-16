@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $category = $_POST['category_id'];
     $price = $_POST['price'];
     $description = trim($_POST['description']);
-    $sql = "UPDATE dishes SET category_id='$category',name='$name', description='$description',price='$price',is_approved='0',updated_time=current_timestamp() WHERE dish_id = '$id'";
+    $sql = "UPDATE dishes SET category_id='$category',name='$name', description='$description',price='$price',is_approved='1',updated_time=current_timestamp() WHERE dish_id = '$id'";
     $isSuccess = mysqli_query($con, $sql);
     mysqli_close($con);
 

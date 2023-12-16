@@ -24,6 +24,7 @@ $row_user = mysqli_fetch_assoc($select_user);
 <style>
     body {
         color: black;
+        line-height: 1.5;
     }
 </style>
 
@@ -121,6 +122,8 @@ $row_user = mysqli_fetch_assoc($select_user);
 
     <script type="text/javascript">
         $(document).ready(function() {
+            $(".nav-link").removeClass("active")
+            $("#manage-dish").addClass("active")
             // validation form
             const minDate = new Date()
             // const maxDate = new Date()
@@ -234,7 +237,7 @@ $row_user = mysqli_fetch_assoc($select_user);
                     }
                 ],
                 language: {
-                    
+
                     emptyTable: "Không có đơn hàng trong ngày",
                     loading: "Không có đơn hàng trong ngày",
                     search: "Tìm:"
@@ -287,11 +290,11 @@ $row_user = mysqli_fetch_assoc($select_user);
                         receipt_id: receiptId,
                     },
                     success: function(data) {
-                        if(!(data.error)){
-                            if(data.fail){
+                        if (!(data.error)) {
+                            if (data.fail) {
                                 alert(data.fail)
                             }
-                        }else{
+                        } else {
                             alert(data.error)
                         }
                     },

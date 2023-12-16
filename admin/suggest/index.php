@@ -1,15 +1,15 @@
 <?php
 session_start();
 include '../../connect/connect.php';
-if (!isset($_SESSION['employee_chef_id'])) {
+if (!isset($_SESSION['employee_manager_id'])) {
     header("location: /kitchen/login/");
 }
-$id = $_SESSION['employee_chef_id'];
+$id = $_SESSION['employee_manager_id'];
 
 // echo $id;
 $select_user = mysqli_query($con, "SELECT *,CONCAT(`first_name`,' ',`last_name`) as `full_name` FROM `employees` WHERE `employee_id` = '$id'");
 $row_user = mysqli_fetch_assoc($select_user);
-$sql = "SELECT dishes.dish_id, dishes.name, dishes.price, categories.name AS category_name FROM dishes JOIN categories ON dishes.category_id = categories.id WHERE remove = 0 and is_approved = 1";
+$sql = "SELECT dishes.dish_id, dishes.name, dishes.price, categories.name AS category_name FROM dishes JOIN categories ON dishes.category_id = categories.id WHERE remove = 0 and is_approved = 0";
 
 if (isset($_GET['categories'])) {
     $sql .= " WHERE categories.name IN ('" . implode("', '", explode("--", $_GET['categories'])) . "')";
@@ -30,7 +30,7 @@ $dishes = mysqli_query($con, $sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kitchen | Món ăn</title>
+    <title>Kitchen | Đề xuất món ăn</title>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/datatables.min.css">
     <link rel="stylesheet" href="../../css/vanillaSelectBox.css">
@@ -39,13 +39,13 @@ $dishes = mysqli_query($con, $sql);
 <body>
     <div class="container-fluid">
         <div class="row py-4">
-            <?php include "../layouts/sidebar_kitchen.php" ?>
+            <?php include "../layouts/sidebar.php" ?>
 
             <div class="col-12 col-md-10">
                 <!-- Start: Page header -->
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <h3 class="text-uppercase">Quản lý món ăn</h3>
+                        <h3 class="text-uppercase">Món ăn đang được đề xuất</h3>
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="d-flex justify-content-end">
@@ -147,6 +147,15 @@ $dishes = mysqli_query($con, $sql);
                                                             <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
                                                         </svg>
                                                     </button>
+                                                    <form id="CheckForm-<?= $dish['dish_id'] ?>" method="post" action="/kitchen/api/dish/CheckDish.php">
+                                                        <input type="text" hidden name="id" aria-label="id Check" value="<?= $dish['dish_id']; ?>">
+                                                        <button type="button" class="btn btn-link " aria-label="Check button" onclick="confirmCheck(<?= $dish['dish_id'] ?>, '<?= $dish['name'] ?>')">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                            </svg> </button>
+                                                    </form>
+
 
                                                 </div>
                                             </td>
@@ -169,7 +178,7 @@ $dishes = mysqli_query($con, $sql);
     <!-- Start: Modal -->
     <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="insert modal" aria-hidden="true">
         <div class="modal-dialog" role="dialog">
-            <form method="post" action="/kitchen/api/dish/insertDish.php" id="insertForm" enctype="multipart/form-data">
+            <form method="post" action="/kitchen/api/chef/insertDish.php" id="insertForm" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Thêm món ăn</h5>
@@ -307,8 +316,24 @@ $dishes = mysqli_query($con, $sql);
                 });
         }
 
+        function confirmCheck(id, name) {
+            swal({
+                    title: "Bạn có chắc chắn muốn cập nhật không?",
+                    text: "id: " + id + ", tên: " + name,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willUpdate) => {
+                    if (willUpdate) {
+
+                        document.getElementById("CheckForm-" + id).submit();
+                    }
+                });
+        }
+
         function viewDetail(dish_id) {
-            window.location.href = "/kitchen/chef/dish/detail/?id=" + dish_id;
+            window.location.href = "/kitchen/admin/dish/detail/?id=" + dish_id;
         }
 
         <?php
@@ -327,7 +352,7 @@ $dishes = mysqli_query($con, $sql);
     <script type="text/javascript">
         $(document).ready(function() {
             $(".nav-link").removeClass("active")
-            $("#chef-dish").addClass("active")
+            $("#dishSuggest-manage").addClass("active")
             // validation form
             $('#insertForm').submit(function(event) {
                 let name = $('#dish-name-insert').val().trim();

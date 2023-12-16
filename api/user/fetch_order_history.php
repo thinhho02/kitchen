@@ -4,6 +4,14 @@ include($_SERVER['DOCUMENT_ROOT'] . '/kitchen/connect/connect.php');
 $data = [];
 if (isset($_POST['user_id']) && $_POST['user_id'] !== '') {
     $user_id = $_POST['user_id'];
+    $select_receipt = mysqli_query($con, "SELECT `total` FROM `payment` WHERE `employee_id` = '$user_id' and  `status` = false ");
+    if (mysqli_num_rows($select_receipt) > 0) {
+        $sum = 0;
+        while ($row_receipt = mysqli_fetch_assoc($select_receipt)) {
+            $sum += $row_receipt['total'];
+        }
+        mysqli_query($con, "UPDATE `employees` SET `debt`= $sum WHERE `employee_id` = '$user_id'");
+    }
     $select_pay = mysqli_query($con, "SELECT `id`,`employee_id`,`status`,`total`,DATE_FORMAT(`created_time`,'%Y/%m') as `date` FROM `payment` WHERE `employee_id` = '$user_id'");
     if (mysqli_num_rows($select_pay) > 0) {
         while ($row_pay = mysqli_fetch_assoc($select_pay)) {
