@@ -272,7 +272,7 @@ if (
 
                 $mail->isHTML(true);
 
-                $mail->Subject = "Verification Code";
+                $mail->Subject = "Thông Tin Đơn Hàng";
                 // $mail->Body = "mã code : $otp";
                 $mail->Body = $html;
                 try {

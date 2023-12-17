@@ -127,7 +127,7 @@ const getOrderHistory = async () => {
                                             <th scope="col" style="min-width: 150px;">Mã HĐ</th>
                                             <th scope="col" style="min-width: 140px;">Tổng tiền</th>
                                             <th scope="col" style="min-width: 280px;">Ghi chú</th>
-                                            <th scope="col" style="min-width: 150px;">Ngày đặt</th>
+                                            <th scope="col" style="min-width: 150px;">Ngày nhận</th>
                                             <th scope="col" style="min-width: 130px;">Trạng thái</th>
                                             <th scope="col" style="min-width: 120px;"></th>
     

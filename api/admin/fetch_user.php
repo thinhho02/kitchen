@@ -15,7 +15,7 @@ if (
                                         FROM `employees` 
                                         INNER JOIN `payment` on `payment`.`employee_id` = `employees`.`employee_id` 
                                         INNER JOIN `receipts` on `payment`.`id` = `receipts`.`payment_id` 
-                                        WHERE DATE_FORMAT(`receipts`.`created_time`,'%Y-%m') = '$year_month' 
+                                        WHERE DATE_FORMAT(`receipts`.`created_time`,'%Y-%m') = '$year_month' and `receipts`.`status` != 'cart'
                                         GROUP BY `employees`.`employee_id` 
                                         ORDER BY `sum` desc");
     if(mysqli_num_rows($select_user)>0){

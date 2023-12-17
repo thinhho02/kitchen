@@ -286,7 +286,7 @@ $date = date("Y");
                             // console.log(row)
                             const btn = `<div class="d-flex align-items-center justify-content-center">
                                             <button type="button" class="btn btn-link view-detail" data-toggle="modal" data-target="#modelId" data-row='${JSON.stringify(row)}'><ion-icon name="eye-outline"></ion-icon></button>
-                                            <button type="button" class="btn btn-link detail-receipt" data-row='${row.receipt_id}'><ion-icon name="trash-outline" style="color: red"></ion-icon></button>
+                                            <button type="button" class="btn btn-link delete-receipt" data-row='${row.receipt_id}'><ion-icon name="trash-outline" style="color: red"></ion-icon></button>
                                         </div>`
                             return btn;
                             // Combine dish names from menu_list
@@ -347,7 +347,7 @@ $date = date("Y");
             });
 
             function openDetailModal(data) {
-
+                // console.log(data)
                 data.menu_list.forEach((menu, index) => {
                     let name = menu.menu_detail.map((dish) => {
                         return dish.name
@@ -372,7 +372,7 @@ $date = date("Y");
 
                 console.log(data);
             }
-            $("#table-orders").on("click", ".detail-receipt", async function() {
+            $("#table-orders").on("click", ".delete-receipt", async function() {
                 // valueMinDate = "2023-12-11";
                 // console.log(receiptId)
                 const btnValue = $(this).data('row');
@@ -402,7 +402,7 @@ $date = date("Y");
             })
             $("#footer-table-orders").on("click", ".limit_orders", function(e) {
                 if ($("#footer-table-orders").find(".see_more").length == 0) {
-                    tableOrders.page.len(100).draw()
+                    tableOrders.page.len(10000).draw()
                     $(".limit_orders").addClass("see_more")
                     $(".limit_orders").html("Ẩn Bớt")
                 } else {

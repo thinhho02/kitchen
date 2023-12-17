@@ -56,7 +56,7 @@ $row_user = mysqli_fetch_assoc($select_user);
                                 <th scope="col" class="text-center">Mã NV</th>
                                 <th scope="col" class="text-center">Tên NV</th>
                                 <th scope="col" class="text-center">Ghi chú</th>
-                                <th scope="col" class="text-center">Ngày đặt</th>
+                                <th scope="col" class="text-center">Ngày nhận</th>
                                 <th scope="col" class="text-center"></th>
                             </tr>
                         </thead>
