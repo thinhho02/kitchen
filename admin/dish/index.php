@@ -15,14 +15,14 @@ $row_user = mysqli_fetch_assoc($select_user);
 $sql = "SELECT dishes.dish_id, dishes.name, dishes.price, categories.name AS category_name FROM dishes JOIN categories ON dishes.category_id = categories.id WHERE `is_approved` = true and remove = 0";
 
 if (isset($_GET['categories'])) {
-    $sql .= " WHERE categories.name IN ('" . implode("', '", explode("--", $_GET['categories'])) . "')";
+    $sql .= " AND categories.name IN ('" . implode("', '", explode("--", $_GET['categories'])) . "')";
 }
 
 if (isset($_GET['sort'])) {
     $sort = explode(",", $_GET['sort']);
     $sql .= " ORDER BY " . $sort[0] . ' ' . $sort[1];
 } else {
-    $sql .= " ORDER BY name";
+    $sql .= " ORDER BY name asc";
 }
 
 $dishes = mysqli_query($con, $sql);
@@ -77,7 +77,7 @@ $dishes = mysqli_query($con, $sql);
                                 </label>
                             </div>
                             <select class="custom-select-sm" id="sort">
-                                <option value="name" selected>Tên: A-Z</option>
+                                <option value="name,asc" selected>Tên: A-Z</option>
                                 <option value="name,desc">Tên: Z-A</option>
                                 <option value="price,asc">Giá tăng dần</option>
                                 <option value="price,desc">Giá giảm dần</option>

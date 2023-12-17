@@ -12,7 +12,7 @@ if (isset($_POST['user_id']) && $_POST['user_id'] !== '') {
         }
         mysqli_query($con, "UPDATE `employees` SET `debt`= $sum WHERE `employee_id` = '$user_id'");
     }
-    $select_pay = mysqli_query($con, "SELECT `id`,`employee_id`,`status`,`total`,DATE_FORMAT(`created_time`,'%Y/%m') as `date` FROM `payment` WHERE `employee_id` = '$user_id'");
+    $select_pay = mysqli_query($con, "SELECT `id`,`employee_id`,`status`,`total`,DATE_FORMAT(`created_time`,'%Y/%m') as `date` FROM `payment` WHERE `employee_id` = '$user_id' order by `created_time` desc");
     if (mysqli_num_rows($select_pay) > 0) {
         while ($row_pay = mysqli_fetch_assoc($select_pay)) {
             $data_receipt = [];

@@ -38,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $price = $_POST['price'];
     $description = trim($_POST['description']);
     $image = $newFileName;
-    $quantity = 1;
-    $sql = "INSERT INTO `dishes`(`dish_id`, `category_id`, `name`, `image`, `description`, `price`, `quantity`, `is_approved`, `remove`, `created_time`, `updated_time`) VALUES (NULL,'$category','$name','$image','$description','$price','$quantity',1,0,current_timestamp(),current_timestamp())";
+    $sql = "INSERT INTO `dishes`(`dish_id`, `category_id`, `name`, `image`, `description`, `price`, `is_approved`, `remove`, `created_time`, `updated_time`) VALUES (NULL,'$category','$name','$image','$description','$price',1,0,current_timestamp(),current_timestamp())";
     $isSuccess = mysqli_query($con, $sql);
+    echo $sql;
     mysqli_close($con);
 
     $_SESSION['status'] = $isSuccess ? 'success' : 'failure';

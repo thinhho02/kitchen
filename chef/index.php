@@ -88,10 +88,10 @@ $row_user = mysqli_fetch_assoc($select_user);
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th class="center" style="min-width: 40px;">#</th>
-                                                <th style="min-width: 225px;">Tên món</th>
-                                                <th class="center" style="min-width: 108px;">Số lượng</th>
-                                                <th class="right" style="min-width: 360px;">Nguyên liệu</th>
+                                                <th class="text-center" style="min-width: 40px;">#</th>
+                                                <th class="text-left pl-2" style="min-width: 225px;">Tên món</th>
+                                                <th class="text-center" style="min-width: 108px;">Số lượng</th>
+                                                <th class="text-left pl-2" style="min-width: 360px;">Nguyên liệu</th>
                                             </tr>
                                         </thead>
                                         <tbody class="receipt_detail">
@@ -103,7 +103,7 @@ $row_user = mysqli_fetch_assoc($select_user);
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Xóa</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                             <button type="button" class="btn btn-primary" id="updateReceipt" data-dismiss="modal">Hoàn Thành</button>
                         </div>
                     </div>
@@ -197,7 +197,7 @@ $row_user = mysqli_fetch_assoc($select_user);
                     {
                         "data": "receipt_id",
                         className: 'dt-body-center',
-                        "render": function(data, type, row) {
+                        "render": function(data, type, row, meta) {
                             const receiptId = data;
                             // console.log(data)
                             return '<button type="button" class="btn btn-link view-detail" data-toggle="modal" data-target="#modelId" data-row=\'' + JSON.stringify(row) + '\'><ion-icon name="eye-outline"></ion-icon></button>';
@@ -259,15 +259,15 @@ $row_user = mysqli_fetch_assoc($select_user);
                         return dish.name
                     }).join("<br>")
                     let resources = menu.menu_detail.map((dish) => {
-                        return `${dish.name} : ${dish.resources.join(", ")}`
+                        return `<b>${dish.name}</b> : ${dish.resources.join(", ")}`
                     }).join("<br>")
                     const modalReceipt =
                         `<tr class="menu${menu.menu_id}">
-                                            <td class="center count">${index + 1}</td>
-                                            <td class="left name">${name}</td>
-                                            <td class="center quantity">${menu.quantity}</td>
-                                            <td class="right menu_price">${resources}</td>
-                                        </tr>`
+                            <td class="text-center align-middle count">${index + 1}</td>
+                            <td class="text-left align-middle name">${name}</td>
+                            <td class="text-center align-middle quantity">${menu.quantity}</td>
+                            <td class="text-left align-middle menu_price">${resources}</td>
+                        </tr>`
                     $(".modal-body .receipt_detail").append(modalReceipt)
 
                 })

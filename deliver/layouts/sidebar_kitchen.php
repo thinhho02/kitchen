@@ -41,7 +41,7 @@
             <p class="font-weight-bold text-uppercase px-3 small pt-4 pb-1 mb-0">Đơn hàng</p>
             <ul class="nav flex-column bg-white mb-0">
                 <li class="nav-item">
-                    <a href="/kitchen/deliver/" class="nav-link active text-dark bg-light">Đơn hàng</a>
+                    <a href="/kitchen/deliver/" class="nav-link active text-dark bg-light">Đơn giao</a>
                 </li>
 
             </ul>

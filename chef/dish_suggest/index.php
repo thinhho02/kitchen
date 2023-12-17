@@ -169,7 +169,7 @@ $dishes = mysqli_query($con, $sql);
     <!-- Start: Modal -->
     <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="insert modal" aria-hidden="true">
         <div class="modal-dialog" role="dialog">
-            <form method="post" action="/kitchen/api/dish_suggest/insertDish.php" id="insertForm" enctype="multipart/form-data">
+            <form method="post" action="/kitchen/api/chef/insertDish.php" id="insertForm" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Thêm món ăn</h5>
@@ -324,7 +324,7 @@ $dishes = mysqli_query($con, $sql);
         }
 
         function viewDetail(dish_id) {
-            window.location.href = "/kitchen/admin/dish/detail/?id=" + dish_id;
+            window.location.href = "/kitchen/chef/dish/detail/?id=" + dish_id;
         }
 
         <?php

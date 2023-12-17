@@ -300,17 +300,17 @@ if (isset($_POST['submit'])) {
                     <div class="flex">
                         <label>
                             <input required="" placeholder="" name="firstname" type="text" class="input" autocomplete="off">
-                            <span>Firstname</span>
+                            <span>Họ</span>
                         </label>
 
                         <label>
                             <input required="" placeholder="" name="lastname" type="text" class="input" autocomplete="off">
-                            <span>Lastname</span>
+                            <span>Tên</span>
                         </label>
                     </div>
                     <label>
                         <input required="" placeholder="" name="phone" type="text" class="input" autocomplete="off">
-                        <span>Phone</span>
+                        <span>Số Điện Thoại</span>
                     </label>
                     <label>
                         <input required="" placeholder="" autocomplete="off" name="email" on type="email" class="input">
@@ -322,25 +322,25 @@ if (isset($_POST['submit'])) {
                     </label>
                     <label>
                         <input required="" placeholder="" name="idcard" type="number" class="input" autocomplete="off">
-                        <span>ID card</span>
+                        <span>CMND/CCCD</span>
                     </label>
                     <label>
                         <input required="" placeholder="" name="date" type="date" class="input">
                         <span></span>
                     </label>
-                    <label class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Roles</label>
+                    <label class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" style="margin-bottom:0px;">Chức Vụ</label>
                     <select id="underline_select" name="roles" class="block py-2.5 px-1 w-full text-sm bg-transparent  hover:bg-gray-100 rounded-md border-gray-200 appearance-none  dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" style="border: 1px solid rgba(105, 105, 105, 0.397);">
                         <option value="" hidden>Chọn chức vụ</option>
-                        <option value="employee">employee</option>
-                        <option value="chef">chef</option>
-                        <option value="deliver">deliver</option>
+                        <option value="employee">Nhân Viên</option>
+                        <option value="chef">Đầu Bếp</option>
+                        <option value="deliver">Giao Hàng</option>
                     </select>
-                    <div class="grid w-full  items-center gap-1.5">
-                        <label class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Avatar</label>
+                    <div class="grid w-full items-center gap-1.5 mt-2">
+                        <label class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" style="margin-bottom: 0px;">Hình Ảnh</label>
                         <input id="avatar" name="avatar" type="file" class="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium" style="border: 1px solid rgba(105, 105, 105, 0.397);">
                     </div>
                     </label>
-                    <input type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="submit"></input>
+                    <input type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="submit" value="Tạo">
 
                 </form>
             </div>

@@ -3,7 +3,8 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <!-- <link rel="stylesheet" href="/kitchen/css/style.css"> -->
 <style>
-    .active {
+    a.active,
+    button.active {
         background-color: #58588e !important;
         color: white !important;
     }
@@ -15,6 +16,9 @@
     .nav .nav-link:hover {
         background-color: #58588e !important;
         color: white !important;
+    }
+    .icon-logout{
+        color: white;
     }
 </style>
 <div class="col-12 col-md-2 d-flex justify-content-center border-right p-0">
@@ -39,7 +43,7 @@
                     <a href="/kitchen/admin/" class="nav-link text-dark bg-light" id="statistic">Thống kê</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link text-dark bg-light" id="order-manage">Quản lý đặt món</a>
+                    <a href="/kitchen/admin/list_order/" class="nav-link text-dark bg-light" id="order-manage">Quản lý đơn hàng</a>
                 </li>
             </ul>
 
@@ -71,16 +75,16 @@
 
 
         </div>
-        <a href="/kitchen/login/logout.php?id=<?php echo $id ?>" class="link-profile px-3 mt-3">
-            <div class="nav align-items-center justify-content-end profile-info" style="color: white">
-                <div class="icon-profile">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
-                        <ion-icon name="log-out-outline" style="font-size: 25px;"></ion-icon>
-                    </div>
-                </div>
 
-            </div>
-        </a>
+        <div class="nav align-items-center justify-content-end profile-info px-3 mt-5">
+            <a href="/kitchen/login/logout.php?id=<?php echo $id ?>" class="icon-logout">
+                <div class="rounded-circle d-flex align-items-center justify-content-center" style="height: 38px; width: 38px; background-color: #a9a9a9;">
+                    <ion-icon name="log-out-outline" style="font-size: 25px;"></ion-icon>
+                </div>
+            </a>
+
+        </div>
+
 
     </div>
 

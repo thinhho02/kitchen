@@ -24,7 +24,7 @@ $(document).ready(function () {
         tableUser.ajax.reload()
         tableResources.ajax.reload();
 
-        getTopBuyer(currentMonth,currentDate)
+        getTopBuyer(currentMonth, currentDate)
         getBar(currentDate, SelectColors)
     })
 
@@ -53,7 +53,7 @@ $(document).ready(function () {
                         let selectedValue = config.config.series[config.seriesIndex].data[config.dataPointIndex];
                         let splited = selectedColumn.split("/")
 
-                        
+
                         currentMonth = splited[0]
                         currentDate = splited[1]
 
@@ -241,7 +241,7 @@ $(document).ready(function () {
                 $(".total-this-year").html(`${Number(data.sum).toLocaleString("en-US")} VNĐ`);
                 let xaxis = data.x
                 let yaxis = data.y
-                
+
 
                 chartBar(xaxis, yaxis, colorsDonut)
             }
@@ -254,7 +254,7 @@ $(document).ready(function () {
             method: "POST",
             dataType: "JSON",
             success: function (data) {
-                
+
                 let sum = Number(data.sum)
                 let xaxis = data.x
                 let yaxis = data.y.map(Number)
@@ -278,7 +278,7 @@ $(document).ready(function () {
     }
 
     const getTopBuyer = async (month, year) => {
-        
+
         await $.ajax({
             url: "../api/admin/fetch_top_buyer.php",
             method: "POST",
@@ -412,7 +412,7 @@ $(document).ready(function () {
         },
         ],
         columnDefs: [
-            {targets: 3,width: "30%",}
+            { targets: 3, width: "30%", }
         ],
         language: {
 
@@ -423,7 +423,22 @@ $(document).ready(function () {
             zeroRecords: "Không có dữ liệu"
 
         },
-        
+        footerCallback: function (row, data, start, end, display) {
+            // let api = this.api();
+
+            // console.log(end)
+            let m = new Array()
+            display.forEach((e) => {
+                m.push(Number(data[e].sum))
+            });
+
+
+            total = m.reduce((a, b) => a + b, 0);
+            // console.log(total)
+            $(".sub-total-user").html(`${total.toLocaleString("en-US")} VNĐ`)
+            // api.column(5).footer().innerHTML = `<span class="mr-4" style="font-weight:bold;letter-spacing: 0.5px">Tổng tiền:</span> ${total.toLocaleString("en-US")} VNĐ`
+        }
+
     });
 
     $('#table-user').on('length.dt', function (e, settings, len) {
@@ -553,15 +568,15 @@ $(document).ready(function () {
         },
         footerCallback: function (row, data, start, end, display) {
             // let api = this.api();
-            
+
             // console.log(end)
             let m = new Array()
             display.forEach((e) => {
                 m.push(Number(data[e].sum))
             });
-            
-            
-            total = m.reduce((a, b) => a+b, 0);
+
+
+            total = m.reduce((a, b) => a + b, 0);
             // console.log(total)
             $(".sub-total-resource").html(`${total.toLocaleString("en-US")} VNĐ`)
             // api.column(5).footer().innerHTML = `<span class="mr-4" style="font-weight:bold;letter-spacing: 0.5px">Tổng tiền:</span> ${total.toLocaleString("en-US")} VNĐ`

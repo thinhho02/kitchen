@@ -37,7 +37,7 @@ $row_user = mysqli_fetch_assoc($select_user);
                 <!-- Start: Page header -->
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <h3 class="text-uppercase">Quản lý đơn hàng</h3>
+                        <h3 class="text-uppercase">Đơn hàng cần giao</h3>
                     </div>
                 </div>
                 <!-- End: Page header -->

@@ -36,7 +36,7 @@
             <p class="font-weight-bold text-uppercase px-3 small pt-3 pb-1 mb-0">Đơn hàng</p>
             <ul class="nav flex-column bg-white mb-0">
                 <li class="nav-item">
-                    <a href="/kitchen/chef/" class="nav-link text-dark bg-light" id="manage-dish">Quản lý đặt món</a>
+                    <a href="/kitchen/chef/" class="nav-link text-dark bg-light" id="manage-dish">Quản lý đơn hàng</a>
                 </li>
 
             </ul>

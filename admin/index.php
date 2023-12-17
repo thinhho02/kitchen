@@ -28,7 +28,7 @@ $date = date("Y");
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/apexcharts.css">
     <link rel="stylesheet" href="../css/datatables.min.css">
-	<link rel="Shortcut Icon" type="image/png" href="../image/icons8-restaurant-bubbles-96.png">
+    <link rel="Shortcut Icon" type="image/png" href="../image/icons8-restaurant-bubbles-96.png">
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
 
@@ -46,8 +46,8 @@ $date = date("Y");
 
     .card {
         margin-bottom: 30px;
-        /* border: 1px solid #ebf1f6; */
-        box-shadow: rgba(145, 158, 171, 0.1) 0px 0px 10px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+        border: 0px solid #ebf1f6;
+        box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 10px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
     }
 
     .card-body {
@@ -101,6 +101,7 @@ $date = date("Y");
         font-size: 13px;
         padding: 4px 8px;
         color: white;
+        border: none !important;
     }
 
     div.dt-buttons>.dt-button:hover {
@@ -210,7 +211,7 @@ $date = date("Y");
                                     </div>
                                     <div id="chart-bar"></div>
                                     <div class="d-flex justify-content-end mt-3">
-                                        <span><b>Tổng doanh thu: </b><span class="total-this-year">0 VNĐ</span></span>
+                                        <span><b class="mr-2" style="letter-spacing: 0.5px">Tổng doanh thu: </b><span class="total-this-year">0 VNĐ</span></span>
                                     </div>
                                 </div>
                             </div>
@@ -222,7 +223,7 @@ $date = date("Y");
                                         <div class="card-body py-4 px-4">
                                             <h5 class="font-weight-bold mx-0">Hàng Năm</h5>
                                             <div class="row align-items-center" style="position: relative;">
-                                                <div class="col-8">
+                                                <div class="col-8" style="line-height: 2;">
                                                     <p class="font-weight-bold mb-1 value_trending">0 VNĐ</p>
                                                     <div class="d-flex align-items-center">
                                                         <span class="color_trending d-flex align-items-center justify-content-center rounded-circle" style="width: 20px; height: 20px;background-color: rgb(251,242,239);"><ion-icon name="trending-up-outline"></ion-icon></span>
@@ -279,7 +280,7 @@ $date = date("Y");
                                 <div class="card-body px-5">
                                     <h5 class="font-weight-bold mb-3 mx-0" style="letter-spacing: 1px;">Đơn Đặt Nhân Viên</h5>
                                     <div class="table-responsive">
-                                        <table class="table table-striped hover" style="width: 100%;border-bottom: none;" id="table-user">
+                                        <table class="table table-striped hover" style="width: 100%;" id="table-user">
                                             <thead>
                                                 <tr style="font-size: 15px">
                                                     <th scope="col" class="text-center" style="min-width: 18px;">#</th>
@@ -295,6 +296,10 @@ $date = date("Y");
 
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <div class="row justify-content-end align-items-center mx-3 mt-3">
+                                        <b class="mr-4" style="letter-spacing: 0.5px">Tổng doanh thu trong tháng:</b>
+                                        <span class="sub-total-user"></span>
                                     </div>
                                     <div class="row justify-content-end mx-3 mt-3" id="footer-table-user">
                                         <button type="button" class="limit_user btn btn-link">Xem thêm</button>
