@@ -18,8 +18,8 @@ $(document).ready(function () {
     let setupMinDate = new Date(localMinDate)
     let setupMaxDate = new Date(localMaxDate)
     // console.log(localMinDate)
-    let valueMinDate = setupMinDate.toISOString().split("T")[0]
-    let valueMaxDate = setupMaxDate.toISOString().split("T")[0]
+    const valueMinDate = setupMinDate.toISOString().split("T")[0]
+    const valueMaxDate = setupMaxDate.toISOString().split("T")[0]
 
     // date food
     $("#date").attr({ "min": valueMinDate, "max": valueMaxDate })
@@ -34,12 +34,12 @@ $(document).ready(function () {
     let btnValue = 1;
     let date = $("#date").val();
     let date_menu = $("#date_menu").val();
-    // console.log(date)
+    // console.log(date_menu)
 
 
-    const getFormCart = async (idMenu, idUser, date) => {
+    const getFormCart = async (idMenu, idUser, date_cart) => {
         // Tạo một đối tượng Date từ chuỗi ngày
-        let dateObject = new Date(date);
+        let dateObject = new Date(date_cart);
 
         // Lấy năm và tháng từ đối tượng Date
         let nam = dateObject.getFullYear();
@@ -49,10 +49,11 @@ $(document).ready(function () {
         let yearMonth = `${nam}-${thang < 10 ? '0' : ''}${thang}`;
 
         // 
-        let day = date
-        // console.log(day)
-        // console.log(yearMonth)
-
+        let day = date_cart
+        console.log(date_cart)
+        console.log(yearMonth)
+        console.log(idMenu)
+        console.log(idUser)
         const response = await $.ajax({
             url: `api/user/fetch_cart.php`,
             method: "POST",
@@ -227,13 +228,14 @@ $(document).ready(function () {
                 })
 
 
-                $(`.btnaddcart`).off("click").on("click", async function () {
+                $(`#tab-menu`).off("click").on("click", ".btnaddcart",async function () {
                     let idMenu = $(this).siblings(".menusId").val()
                     let idUser = $("#getId").val()
                     date_menu = $("#date_menu").val()
-                    // console.log(data.responseJSON)
-                    // console.log(idMenu)
-                    // console.log(date_menu)
+                    console.log(idUser)
+                    console.log(idMenu)
+                    console.log(date_menu)
+
                     await getFormCart(idMenu, idUser, date_menu).then((data) => {
                         alert(data.message)
                     })
@@ -332,10 +334,10 @@ $(document).ready(function () {
                 alert("Status: " + textStatus); alert("Error: " + errorThrown);
             },
             complete: function (data) {
-                $(`.btnaddcart`).off("click").on("click", function () {
+                $(`.tab-food`).off("click").on("click", ".btnaddcart",function () {
                     let idMenu = $(this).siblings(".menusId").val()
                     let idUser = $("#getId").val()
-                    let date = $("#date").val();
+                    date = $("#date").val();
                     // console.log(data.responseJSON)
                     // console.log(idMenu)
                     getFormCart(idMenu, idUser, date).then((data) => {
@@ -367,8 +369,8 @@ $(document).ready(function () {
         
         $(`.tab-food .col-md-12 .menu-wrap`).empty()
         $(`.tab-food p`).remove()
-        let currentMin = $("#date").attr("min")
-        let currentMax = $("#date").attr("max")
+        const currentMin = $("#date").attr("min")
+        const currentMax = $("#date").attr("max")
 
         // console
         if ($("#date").val() < currentMin) {
@@ -386,6 +388,7 @@ $(document).ready(function () {
             date = $("#date").val()
 
         }
+        // console.log(date)
         getFormFood(btnValue, date)
     })
 
@@ -394,8 +397,8 @@ $(document).ready(function () {
         $(`#tab-menu`).attr("style", "height: 60px")
         $(`#tab-menu .col-md-12 .menu-wrap`).empty()
         $(`#tab-menu > p`).remove()
-        let currentMin = $("#date_menu").attr("min")
-        let currentMax = $("#date_menu").attr("max")
+        const currentMin = $("#date_menu").attr("min")
+        const currentMax = $("#date_menu").attr("max")
 
         // console
         if ($("#date_menu").val() < currentMin) {
@@ -413,6 +416,7 @@ $(document).ready(function () {
             date_menu = $("#date_menu").val()
 
         }
+        // console.log(date_menu)
         getFormMenu(date_menu);
     })
 

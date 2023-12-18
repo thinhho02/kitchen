@@ -272,7 +272,7 @@ if (
 
                 $mail->isHTML(true);
 
-                $mail->Subject = "Thông Tin Đơn Hàng";
+                $mail->Subject = "Order Information";
                 // $mail->Body = "mã code : $otp";
                 $mail->Body = $html;
                 try {

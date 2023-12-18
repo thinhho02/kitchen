@@ -309,7 +309,7 @@ if (isset($_POST['submit'])) {
                         </label>
                     </div>
                     <label>
-                        <input required="" placeholder="" name="phone" type="text" class="input" autocomplete="off">
+                        <input required="" placeholder="" name="phone" type="number" class="input" autocomplete="off">
                         <span>Số Điện Thoại</span>
                     </label>
                     <label>
