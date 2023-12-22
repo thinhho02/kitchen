@@ -74,6 +74,7 @@ $(document).ready(function () {
             method: "POST",
             dataType: "JSON",
             success: function (data) {
+                // data[i].menu_list = undefined;
                 console.log(data)
                 if (!(data.error)) {
                     if (!(data.nodata)) {

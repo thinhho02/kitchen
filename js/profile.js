@@ -287,7 +287,7 @@ const getPay = async () => {
         dataType: "JSON",
         data: {
             user_id: id,
-            current_date: currentDate
+            current_date: '2024-1-1'
         },
         success: function (data) {
             $(".pay_body").empty()
