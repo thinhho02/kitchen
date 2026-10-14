@@ -57,6 +57,9 @@
                     <a href="/kitchen/admin/dish" class="nav-link text-dark bg-light" id="dish-manage">Quản lý món ăn</a>
                 </li>
                 <li class="nav-item">
+                    <a href="/kitchen/admin/menu" class="nav-link text-dark bg-light" id="">Quản lý thực đơn</a>
+                </li>
+                <li class="nav-item">
                     <a href="/kitchen/admin/suggest" class="nav-link text-dark bg-light" id="dishSuggest-manage">Duyệt món ăn</a>
                 </li>
             </ul>
